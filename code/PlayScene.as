@@ -3,7 +3,7 @@ package code {
 	
 	public class PlayScene extends GameScene {
 
-		private var player:Player;
+		//private var player:Player;
 		
 		public function PlayScene() {
 			
