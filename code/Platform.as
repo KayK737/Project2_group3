@@ -7,6 +7,16 @@
 		
 		/** The amount that the platform moves per second in the horizontal direction */
 		private var horizontalVelocity = -200;
+		/** The platform's AABB for collision detection. */
+		public var collider: AABB;
+		
+		public function Platform() {
+			collider = new AABB(width / 2, height / 2);
+			collider.calcEdges(x, y);
+
+			PlayScene.platforms.push(this);
+			// constructor code
+		}
 		
 		/** Updates the platform
 		 * Currently moves the platform based on its velocity, however when we change the mechanics this will change

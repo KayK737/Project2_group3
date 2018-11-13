@@ -31,10 +31,13 @@
 		private const VERTICAL_ACCELERATION: Number = 1500;
 		/** The impulse velocity that is added when the player jumps. */
 		private var jumpVelocity: Number = 600;
+		/** The player's AABB for collision detection. */
+		public var collider: AABB;
 		
 		
 		public function Player() {
 			// constructor code
+			collider = new AABB(width / 2, height / 2);
 		}
 		
 		public function update():void{
@@ -43,6 +46,8 @@
 			handleJumping();
 			
 			doPhysics();
+			
+			collider.calcEdges(x,y);
 			
 			detectGround();
 		}
@@ -119,7 +124,7 @@
 		 */
 		private function detectGround(): void {
 			//look at y position
-			var ground: Number = 350;
+			var ground: Number = 570;
 			if (y > ground) {
 				y = ground; // clamp
 				velocity.y = 0;

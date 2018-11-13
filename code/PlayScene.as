@@ -85,10 +85,10 @@
 			for (var i = platforms.length - 1; i >= 0; i--) {
 				platforms[i].update();
 				if (i == platforms.length - 1) { //if the most recent platform
-					trace("most recent");
+					//trace("most recent");
 					if (platforms[i].x < this.stage.stageWidth - platforms[i].width + 20) {
 						shouldSpawnNewPlatform = true;
-						trace("should spawn new platform");
+						//trace("should spawn new platform");
 					}
 				}
 
