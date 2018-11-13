@@ -40,10 +40,11 @@
 		public function update():void{
 			handleWalking();
 			
+			handleJumping();
+			
 			doPhysics();
 			
 			detectGround();
-			//trace("hello");
 		}
 		
 		/**
@@ -66,6 +67,31 @@
 				}
 			}
 		}//end handleWalking
+		
+		/**
+		 * This function looks at the keyboard input to tell when the player can and should jump.
+		 */
+		private function handleJumping(): void {
+			if (KeyboardInput.OnKeyDown(Keyboard.SPACE) && velocity.y <= 600) {
+				if (isGrounded == true) {
+					velocity.y = -jumpVelocity;
+					isGrounded = false;
+					isJumping = true;
+					jumpCount += 1;
+				} else {
+					if (jumpCount <= 1) {
+						velocity.y = -jumpVelocity;
+						jumpCount += 1;
+						isJumping = true;
+					}
+				}
+			}
+			if (!KeyboardInput.IsKeyDown(Keyboard.SPACE)) {
+				isJumping = false;
+				gravity.y = baseGravity.y;
+			}
+			if (velocity.y > 0) isJumping = false;
+		}// end handleJumping
 		
 		/**
 		 * The physics that govern the player's position.
