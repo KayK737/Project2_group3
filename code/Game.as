@@ -1,6 +1,10 @@
 ﻿package code {
 
 	import flash.display.MovieClip;
+	import flash.events.KeyboardEvent;
+	import flash.events.Event;
+	import flash.utils.getTimer;
+	import flash.ui.Keyboard;
 
 	/**
 	 * This is the overall class from which the rest of the game is built off of.
@@ -9,6 +13,9 @@
 
 		/** This keeps track of the keyboard's state. */
 		private var keyboard: KeyboardInput;
+
+		//KeyboardInput.setup(stage);
+
 
 		/**
 		 * This stores the current scene using a FSM.
@@ -20,11 +27,12 @@
 		 */
 		public function Game() {
 			// constructor code
-			keyboard = new KeyboardInput(stage);
+			KeyboardInput.setup(stage);
 
-			switchScene(new SceneTitle());
+			switchScene(new TitleScene());
 
 			addEventListener(Event.ENTER_FRAME, gameLoop);
+
 		}
 
 		/**
@@ -35,6 +43,8 @@
 			if (gameScene) switchScene(gameScene.update(keyboard));
 
 			Time.update();
+			//trace(Time.dt);
+			KeyboardInput.update();
 
 		} // ends gameLoop
 

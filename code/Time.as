@@ -7,7 +7,7 @@
 	public class Time {
 
 		/** The amount of time that has passed since the last frame. */
-		public static var timeDelta: Number = 0;
+		public static var dt: Number = 0;
 		/** The amount of time that has passed since the start of the game. */
 		public static var time: Number = 0;
 		/** The amount of time that had passed since the start of the game last frame. */
@@ -18,7 +18,7 @@
 		 */
 		public static function update(): void {
 			time = getTimer();
-			timeDelta = (time - timePrev) / 1000;
+			dt = (time - timePrev) / 1000;
 			timePrev = time; //cache next frame.
 		}
 	}

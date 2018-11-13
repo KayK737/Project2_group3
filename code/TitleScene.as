@@ -1,30 +1,50 @@
 ﻿package code {
 	import flash.events.MouseEvent;
-	
+	import flash.ui.Keyboard;
+
 	public class TitleScene extends GameScene {
-		
-		
-		private var shouldSwitchToPlay:Boolean = false;
-		
-		override public function update(keyboard:KeyboardInput):GameScene {
-			
-			if(shouldSwitchToPlay) return new PlayScene();
-			
+
+		/** Keeps track of if it should switch to a play scene. */
+		private var shouldSwitchToPlay: Boolean = false;
+
+		/**
+		 * This should override the public update function with its own update function.
+		 * This updates every thing in the title scene when the scene is running.
+		 * @param keyboard:KeyboardInput reacts to the players keyboard inputs.
+		 * @return defalt returns null but can return a new GameScene
+		 */
+		override public function update(keyboard: KeyboardInput): GameScene {
+			handleNextScene();
+			if (shouldSwitchToPlay) return new PlayScene();
+
 			return null;
 		}
-		override public function onBegin():void {
+
+		/**
+		 * Do this function when entering the scene.
+		 */
+		override public function onBegin(): void {
 			//bttnPlay.addEventListener(MouseEvent.MOUSE_DOWN, handleClickPlay);
 			trace("Enter TitleScene");
 		}
-		override public function onEnd():void {
+
+		/**
+		 * Do this function when entering the scene.
+		 */
+		override public function onEnd(): void {
 			//bttnPlay.removeEventListener(MouseEvent.MOUSE_DOWN, handleClickPlay);
 			trace("Exit TitleScene");
 		}
-		
-		private function handleClickPlay(e:MouseEvent):void {
-			shouldSwitchToPlay = true;
+
+		/**
+		 * Decides if it should switch scenes and to what one if it should.
+		 */
+		private function handleNextScene(): void {
+			if (KeyboardInput.IsKeyDown(Keyboard.ENTER)) {
+				shouldSwitchToPlay = true;
+			}
 		}
-		
+
 	}
-	
+
 }

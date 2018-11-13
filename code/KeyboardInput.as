@@ -8,34 +8,23 @@
 	 */
 	public class KeyboardInput {
 
-		/** Keeps track of if the Left arrow key is being pressed. */
-		public static var keyLeft: Boolean = false;
-		/** Keeps track of if the Up arrow key is being pressed. */
-		public static var keyUp: Boolean = false;
-		/** Keeps track of if the Right arrow key is being pressed. */
-		public static var keyRight: Boolean = false;
-		/** Keeps track of if the Down arrow key is being pressed. */
-		public static var keyDown: Boolean = false;
-		/** Keeps track of if the Enter key is being pressed. */
-		public static var keyEnter: Boolean = false;
-		/** Keeps track of if the Escape key is being pressed. */
-		public static var keyEscape: Boolean = false;
-		/** Keeps track of if the W key is being pressed. */
-		public static var keyW: Boolean = false;
-		/** Keeps track of if the A key is being pressed. */
-		public static var keyA: Boolean = false;
-		/** Keeps track of if the S key is being pressed. */
-		public static var keyS: Boolean = false;
-		/** Keeps track of if the D key is being pressed. */
-		public static var keyD: Boolean = false;
+		static public var keysState: Array = new Array();
+		static public var keysPrevState: Array = new Array();
 
 		/**
 		 * This function adds event listeners to handle KeyboardEvents.
 		 * @param stage:Stage keeps track of things on the stage.
 		 */
-		public function KeyboardInput(stage: Stage) {
+		static public function setup(stage: Stage) {
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, handleKeyDown);
 			stage.addEventListener(KeyboardEvent.KEY_UP, handleKeyUp);
+		}
+
+		/**
+		 * cache all the key values , for the next frmae.
+		 */
+		static public function update(): void {
+			keysPrevState = keysState.slice(); // in this context , slice() gives us a copy of the array
 		}
 
 		/**
@@ -43,26 +32,15 @@
 		 * @param keyCode: int keeps track of what key.
 		 * @param isDown: Boolean keeps track of if the key is pressed or not.
 		 */
-		private function updateKey(keyCode: int, isDown: Boolean): void {
-
-			if (keyCode == 13) keyEnter = isDown;
-			if (keyCode == 37) keyLeft = isDown;
-			if (keyCode == 38) keyUp = isDown;
-			if (keyCode == 39) keyRight = isDown;
-			if (keyCode == 40) keyDown = isDown;
-			if (keyCode == 27) keyEscape = isDown;
-			if (keyCode == 87) keyW = isDown;
-			if (keyCode == 65) keyA = isDown;
-			if (keyCode == 83) keyS = isDown;
-			if (keyCode == 68) keyD = isDown;
+		static private function updateKey(keyCode: int, isDown: Boolean): void {
+			keysState[keyCode] = isDown;
 		}
 
 		/**
 		 * Marks keys as down when they are pressed.
 		 * @param e: KeyboardEvent keeps track of key board event.
 		 */
-		private function handleKeyDown(e: KeyboardEvent): void {
-			//trace(e.keyCode);
+		static private function handleKeyDown(e: KeyboardEvent): void {
 			updateKey(e.keyCode, true);
 		}
 
@@ -70,9 +48,31 @@
 		 * Marks keys as up when they are not pressed.
 		 * @param e: KeyboardEvent keeps track of key board event.
 		 */
-		private function handleKeyUp(e: KeyboardEvent): void {
-
+		static private function handleKeyUp(e: KeyboardEvent): void {
 			updateKey(e.keyCode, false);
+		}
+
+		/**
+		 * Detects when a key is being pressed down and returns what key it is.
+		 * @param keyCode: the ID number of a key.
+		 * @return is [keyCode] being pressed down.
+		 */
+		static public function IsKeyDown(keyCode: int): Boolean {
+			if (keyCode < 0) return false;
+			if (keyCode >= keysState.length) return false;
+			return keysState[keyCode];
+		}
+
+		/**
+		 * Detects when a key is initailly pressed down and returns what key it is.
+		 * @param keyCode: the ID number of a key.
+		 * @return is [keyCode] being pressed and wasn't being pressed last frame.
+		 */
+		static public function OnKeyDown(keyCode: int): Boolean {
+			if (keyCode < 0) return false;
+			if (keyCode >= keysState.length) return false;
+
+			return (keysState[keyCode] && !keysPrevState[keyCode]);
 		}
 
 	}
