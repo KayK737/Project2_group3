@@ -30,7 +30,7 @@
 		 */
 		override public function onBegin(): void {
 			//bttnPlay.addEventListener(MouseEvent.MOUSE_DOWN, handleClickPlay);
-			trace("Enter LoseScene");
+			trace("Enter LoseScene. Press 2 to goto play scene. Press 1 to goto title scene.");
 		}
 
 		/**
@@ -45,10 +45,10 @@
 		 * Decides if it should switch scenes and to what one if it should.
 		 */
 		private function handleNextScene(): void {
-			if (KeyboardInput.IsKeyDown(Keyboard.ENTER)) {
+			if (KeyboardInput.IsKeyDown(Keyboard.NUMBER_2)) {
 				shouldSwitchToPlay = true;
 			}
-			if (KeyboardInput.IsKeyDown(Keyboard.BACKSPACE)) {
+			if (KeyboardInput.IsKeyDown(Keyboard.NUMBER_1)) {
 				shouldSwitchToTitle = true;
 			}
 		}

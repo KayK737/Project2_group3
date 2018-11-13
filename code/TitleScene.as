@@ -25,7 +25,7 @@
 		 */
 		override public function onBegin(): void {
 			//bttnPlay.addEventListener(MouseEvent.MOUSE_DOWN, handleClickPlay);
-			trace("Enter TitleScene");
+			trace("Enter TitleScene. Press 2 to goto the play scene.");
 		}
 
 		/**
@@ -40,7 +40,7 @@
 		 * Decides if it should switch scenes and to what one if it should.
 		 */
 		private function handleNextScene(): void {
-			if (KeyboardInput.IsKeyDown(Keyboard.ENTER)) {
+			if (KeyboardInput.IsKeyDown(Keyboard.NUMBER_2)) {
 				shouldSwitchToPlay = true;
 			}
 		}
