@@ -28,9 +28,6 @@
 			collider.calcEdges(x, y);
 			//trace(width, height);
 			collider.setSizes(width/2, height/2);
-			if(this.x <= -500){
-				isDead = true;
-			}
 		}//end update
 	}//end Class Platform
 	
