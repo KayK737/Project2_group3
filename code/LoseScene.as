@@ -45,7 +45,8 @@
 		}
 
 		/**
-		 * Decides if it should switch scenes and to what one if it should.
+		 * Decides if it should switch scenes and to what one depending on the button
+		* the user clicked 
 		 */
 
 		private function handleClickReset(e:MouseEvent):void{

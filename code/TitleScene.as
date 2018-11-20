@@ -44,6 +44,9 @@
 				shouldSwitchToPlay = true;
 			}
 		}
+		/** 
+		*sets shouldswitch to play to true should user click the play button 
+		*/
 		private function handleClickPlay(e:MouseEvent): void {
 			shouldSwitchToPlay = true;
 		}

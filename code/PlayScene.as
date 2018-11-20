@@ -42,6 +42,9 @@
 			handleNextScene();
 
 			updatePlatforms();
+			/**
+			* updates score so the user can see their score
+			*/
 			updateScore();
 			
 
