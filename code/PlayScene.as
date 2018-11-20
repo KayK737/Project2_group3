@@ -13,7 +13,7 @@
 		private var shouldSwitchToTitle: Boolean = false;
 		/** Keeps track of if it should switch to a lose scene. */
 		private var shouldSwitchToLose: Boolean = false;
-		private var cameraOffSetY: Number;
+		private var cameraOffSetY: Number = 0;
 		/** The Y position that Low Platforms will spawn at. */
 		private var lowPlatformY: Number = 600;
 		/** The Y position that Middle Platforms will spawn at. */
@@ -39,7 +39,7 @@
 			player = new Player();
 			addChild(player);
 			player.x = 275;
-			player.y = 200;
+			player.y = 360;
 			
 		}
 
@@ -58,12 +58,14 @@
 			updatePlatforms();
 			updateEnemies();
 			updateScore();
-
-			doCollisionDetection();
 			
 			calcCameraOffSet();
 			
 			moveCamera();
+
+			doCollisionDetection();
+			
+			
 
 			return null;
 		}
@@ -75,10 +77,11 @@
 			trace("Enter PlayScene. Press 1 to goto title scene. Press 3 to goto lose scene.");
 			var startingPlatform = new Platform();
 			startingPlatform.x = 0;
-			startingPlatform.y = 600;
+			startingPlatform.y = lowPlatformY;
 			startingPlatform.width = 1280;
 			this.addChild(startingPlatform);
 			platforms.push(startingPlatform);
+			lastPlatform = lowPlatformY;
 
 		}
 
@@ -110,7 +113,7 @@
 			for (var i = platforms.length - 1; i >= 0; i--) {
 				platforms[i].update();
 				if (i == platforms.length - 1) { //if the most recent platform
-					if (platforms[i].x < this.stage.stageWidth - platforms[i].width + 20) {
+					if (platforms[i].x < this.stage.stageWidth - platforms[i].width + 500) {
 						shouldSpawnNewPlatform = true;
 					}
 				}
@@ -129,20 +132,22 @@
 			newPlatform.width = newLength;
 
 			if (lastPlatform == highPlatformY || lastPlatform == lowPlatformY) {
-				newPlatform.y = midPlatformY;
+				newPlatform.y = midPlatformY +cameraOffSetY;
 				newPlatform.height = 240;
 				lastPlatform = midPlatformY;
 			} else if (lastPlatform == midPlatformY) {
 				var rand = Math.random();
 				if (rand > .5) {
-					newPlatform.y = highPlatformY;
+					newPlatform.y = highPlatformY +cameraOffSetY;
 					newPlatform.height = 360;
 					lastPlatform = highPlatformY;
 				} else {
-					newPlatform.y = lowPlatformY;
+					newPlatform.y = lowPlatformY +cameraOffSetY;
 					lastPlatform = lowPlatformY;
 				}
 			}
+			//trace(cameraOffSetY);
+			//trace(newPlatform.y - cameraOffSetY/50);
 			newPlatform.x = mostCurrentPlatform.x + mostCurrentPlatform.width;
 			this.addChild(newPlatform);
 			platforms.push(newPlatform);
@@ -153,7 +158,7 @@
 			score = score + 1;
 			textScore.text = "Score: " + score;
 			LoseScene.finalScore = score;
-			trace(score);
+			//trace(score);
 		}
 		
 
@@ -182,7 +187,7 @@
 		 */
 		private function moveCamera(): void{
 			for(var i: int = 0; i < platforms.length; i++){
-				platforms[i].y += cameraOffSetY/50;
+				platforms[i].y += cameraOffSetY/30;
 			}
 		}
 		/**
