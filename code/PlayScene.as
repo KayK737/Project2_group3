@@ -130,7 +130,7 @@
 
 		}
 		private function updateScore():void {
-			score = score + Time.dt;
+			score = score + 1;
 			textScore.text = "Score: " + score;
 			trace(score);
 		}
