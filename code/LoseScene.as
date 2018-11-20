@@ -30,7 +30,8 @@
 		 * Do this function when entering the scene.
 		 */
 		override public function onBegin(): void {
-			bttnPlay.addEventListener(MouseEvent.MOUSE_DOWN, handleClickPlay);
+			bttnReset.addEventListener(MouseEvent.MOUSE_DOWN, handleClickReset);
+			bttnReset.addEventListener(MouseEvent.MOUSE_DOWN, handleClickTitle);
 			trace("Enter LoseScene. Press 2 to goto play scene. Press 1 to goto title scene.");
 		}
 
@@ -38,7 +39,7 @@
 		 * Do this function when entering the scene.
 		 */
 		override public function onEnd(): void {
-			bttnPlay.removeEventListener(MouseEvent.MOUSE_DOWN, handleClickPlay);
+			bttnReset.removeEventListener(MouseEvent.MOUSE_DOWN, handleClickReset);
 			trace("Exit LoseScene");
 		}
 
@@ -52,6 +53,12 @@
 			if (KeyboardInput.IsKeyDown(Keyboard.NUMBER_1)) {
 				shouldSwitchToTitle = true;
 			}
+		}
+		private function handleClickReset(e:MouseEvent):void{
+			shouldSwitchToPlay = true;
+		}
+		private function handleClickTitle(e:MouseEvent):void{
+			shouldSwitchToTitle = true;
 		}
 	}
 }

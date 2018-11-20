@@ -47,7 +47,6 @@
 		 * Do this function when entering the scene.
 		 */
 		override public function onBegin(): void {
-			bttnPlay.addEventListener(MouseEvent.MOUSE_DOWN, handleClickPlay);
 			trace("Enter PlayScene. Press 1 to goto title scene. Press 3 to goto lose scene.");
 			var startingPlatform = new Platform();
 			startingPlatform.x = 0;
@@ -62,7 +61,6 @@
 		 * Do this function when entering the scene.
 		 */
 		override public function onEnd(): void {
-			bttnPlay.removeEventListener(MouseEvent.MOUSE_DOWN, handleClickPlay);
 			trace("Exit PlayScene");
 		}
 
