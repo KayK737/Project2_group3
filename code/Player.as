@@ -10,9 +10,9 @@
 	public class Player extends MovieClip {
 		
 		/** Holds the base gravity that the player will always be reset to. */
-		private const baseGravity: Point = new Point(0, 1000);
+		private const baseGravity: Point = new Point(0, 2000);
 		/** Holds the curret gravity of the player. */
-		private var gravity: Point = new Point(0, 1000);
+		private var gravity: Point = new Point(0, 2000);
 		/** The X and Y velocity of the player. */
 		private var velocity: Point = new Point(0, 0);
 		/** The maximum horizontal Speed the player can reach. */

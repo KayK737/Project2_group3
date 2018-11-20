@@ -89,7 +89,7 @@
 				platforms[i].update();
 				if (i == platforms.length - 1) { //if the most recent platform
 					//trace("most recent");
-					if (platforms[i].x < this.stage.stageWidth - platforms[i].width + 20) {
+					if (platforms[i].x < this.stage.stageWidth - platforms[i].width + 500) {
 						shouldSpawnNewPlatform = true;
 						//trace("should spawn new platform");
 					}
@@ -105,16 +105,16 @@
 		private function spawnNewPlatform(): void {
 			var mostCurrentPlatform = platforms[platforms.length - 1];
 			var newPlatform = new Platform();
-			var newLength = (Math.random() * 18 + 2) * 50;
+			var newLength = (Math.random() * 13 + 2) * 50;
 			newPlatform.width = newLength;
 
-			if (mostCurrentPlatform.y == 360 || mostCurrentPlatform.y == 600) {
+			if (mostCurrentPlatform.y == 380 || mostCurrentPlatform.y == 600) {
 				newPlatform.y = 480;
 				newPlatform.height = 240;
 			} else if (mostCurrentPlatform.y == 480) {
 				var rand = Math.random();
 				if (rand > .5) {
-					newPlatform.y = 360;
+					newPlatform.y = 380;
 					newPlatform.height = 360;
 				}
 				else {
@@ -141,8 +141,13 @@
 					player.applyFix(fix);
 				}
 			} // ends for loop
+			if(player.y > 750 || player.x < -30){
+				shouldSwitchToLose = true;
+			}
 
 		} // ends doCollisionDetection 
+		
+		
 
 	}
 
