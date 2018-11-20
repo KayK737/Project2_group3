@@ -16,6 +16,14 @@
 
 		/** An Array for all the platform objects */
 		private var platforms = new Array();
+		
+				public var score:Number = 0;
+
+		/** An Array for all the Enemy Objects */
+		private var enemies = new Array();
+
+		/** The amount of time in ms until an enemy should spawn */
+		private var msTimeUntilEnemySpawn = 1; //1 seconds
 
 		/** the play scene Constructor */
 		public function PlayScene() {
@@ -39,6 +47,8 @@
 			handleNextScene();
 
 			updatePlatforms();
+			updateEnemies();
+			updateScore();
 
 			doCollisionDetection();
 
@@ -176,18 +186,4 @@
 
 
 }
-
-
-		public var score:Number = 0;
-		private var platforms = new Array();
-
-		/** An Array for all the Enemy Objects */
-		private var enemies = new Array();
-
-		/** The amount of time in ms until an enemy should spawn */
-		private var msTimeUntilEnemySpawn = 1; //1 seconds
-
-			updatePlatforms();
-			updateEnemies();
-			updatePlatforms();
-			updateScore();
+
