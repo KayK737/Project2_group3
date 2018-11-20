@@ -10,9 +10,9 @@
 	public class Player extends MovieClip {
 		
 		/** Holds the base gravity that the player will always be reset to. */
-		private const baseGravity: Point = new Point(0, 2500);
+		private const baseGravity: Point = new Point(0, 2000);
 		/** Holds the curret gravity of the player. */
-		private var gravity: Point = new Point(0, 2500);
+		private var gravity: Point = new Point(0, 2000);
 		/** The X and Y velocity of the player. */
 		private var velocity: Point = new Point(0, 0);
 		/** The maximum horizontal Speed the player can reach. */
@@ -31,12 +31,19 @@
 		private const VERTICAL_ACCELERATION: Number = 1500;
 		/** The impulse velocity that is added when the player jumps. */
 		private var jumpVelocity: Number = 600;
+		/** The player's AABB for collision detection. */
+		public var collider: AABB;
 		
 		
 		public function Player() {
 			// constructor code
+			collider = new AABB(width / 2, height / 2);
 		}
 		
+		/**
+		 * Updates the player object.
+		 * Everything that needs to run continuously goes here.
+		 */
 		public function update():void{
 			handleWalking();
 			
@@ -44,7 +51,13 @@
 			
 			doPhysics();
 			
-			detectGround();
+			collider.calcEdges(x,y);
+			
+			isGrounded = false;
+			
+			//trace(y);
+			
+			//detectGround();
 		}
 		
 		/**
@@ -119,7 +132,7 @@
 		 */
 		private function detectGround(): void {
 			//look at y position
-			var ground: Number = 350;
+			var ground: Number = 570;
 			if (y > ground) {
 				y = ground; // clamp
 				velocity.y = 0;
@@ -127,6 +140,27 @@
 				if (isGrounded == false) isGrounded = true;
 				isJumping = false;
 			}
+		}
+		
+		/** 
+		 * This moves the player out of a collision zone when they are colliding with an object.
+		 * @param fix The adjustment to the player's x and y position.
+		 */
+		public function applyFix(fix: Point): void {
+			if (fix.x != 0) {
+				x += fix.x;
+				velocity.x = 0;
+			}
+			if (fix.y != 0) {
+				y += fix.y;
+				velocity.y = 0;
+			}
+			if (fix.y < 0) { //moved player up (they are standing on ground).
+				isGrounded = true;
+				isJumping = false;
+				jumpCount = 0;
+			}
+			collider.calcEdges(x, y);
 		}
 
 	}
