@@ -18,7 +18,7 @@
 		/** An Array for all the platform objects */
 		private var platforms = new Array();
 		
-		private var score:Number = 0;
+		public var score:Number = 0;
 
 		/** the play scene Constructor */
 		public function PlayScene() {
@@ -132,6 +132,7 @@
 		private function updateScore():void {
 			score = score + 1;
 			textScore.text = "Score: " + score;
+			LoseScene.finalScore = score;
 			trace(score);
 		}
 		
