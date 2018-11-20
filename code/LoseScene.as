@@ -2,6 +2,7 @@
 
 	import flash.display.MovieClip;
 	import flash.ui.Keyboard;
+	import flash.events.MouseEvent;
 
 	public class LoseScene extends GameScene {
 
@@ -9,6 +10,8 @@
 		private var shouldSwitchToPlay: Boolean = false;
 		/** Keeps track of if it should switch to a title scene. */
 		private var shouldSwitchToTitle: Boolean = false;
+		
+		public static var finalScore: Number;
 
 		/**
 		 * This should override the public update function with its own update function.
@@ -18,10 +21,9 @@
 		 */
 		override public function update(keyboard: KeyboardInput): GameScene {
 
-			handleNextScene();
 			if (shouldSwitchToTitle) return new TitleScene();
 			if (shouldSwitchToPlay) return new PlayScene();
-
+			scoreFinal.text = "Final Score: " + finalScore;
 			return null;
 		}
 
@@ -29,28 +31,29 @@
 		 * Do this function when entering the scene.
 		 */
 		override public function onBegin(): void {
-			//bttnPlay.addEventListener(MouseEvent.MOUSE_DOWN, handleClickPlay);
-			trace("Enter LoseScene. Press 2 to goto play scene. Press 1 to goto title scene.");
+			bttnReset.addEventListener(MouseEvent.MOUSE_DOWN, handleClickReset);
+			bttnReset.addEventListener(MouseEvent.MOUSE_DOWN, handleClickTitle);
+			
 		}
 
 		/**
 		 * Do this function when entering the scene.
 		 */
 		override public function onEnd(): void {
-			//bttnPlay.removeEventListener(MouseEvent.MOUSE_DOWN, handleClickPlay);
-			trace("Exit LoseScene");
+			bttnReset.removeEventListener(MouseEvent.MOUSE_DOWN, handleClickReset);
+			
 		}
 
 		/**
-		 * Decides if it should switch scenes and to what one if it should.
+		 * Decides if it should switch scenes and to what one depending on the button
+		* the user clicked 
 		 */
-		private function handleNextScene(): void {
-			if (KeyboardInput.IsKeyDown(Keyboard.NUMBER_2)) {
-				shouldSwitchToPlay = true;
-			}
-			if (KeyboardInput.IsKeyDown(Keyboard.NUMBER_1)) {
-				shouldSwitchToTitle = true;
-			}
+
+		private function handleClickReset(e:MouseEvent):void{
+			shouldSwitchToPlay = true;
+		}
+		private function handleClickTitle(e:MouseEvent):void{
+			shouldSwitchToTitle = true;
 		}
 	}
 }

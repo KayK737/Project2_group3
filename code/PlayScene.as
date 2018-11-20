@@ -17,18 +17,13 @@
 		/** An Array for all the platform objects */
 		private var platforms = new Array();
 
-		/** An Array for all the Enemy Objects */
-		private var enemies = new Array();
-
-		/** The amount of time in ms until an enemy should spawn */
-		private var msTimeUntilEnemySpawn = 1; //1 seconds
-
 		/** the play scene Constructor */
 		public function PlayScene() {
 			player = new Player();
 			addChild(player);
 			player.x = 275;
 			player.y = 200;
+			
 		}
 
 		/**
@@ -44,8 +39,6 @@
 			handleNextScene();
 
 			updatePlatforms();
-			updateEnemies();
-			updatePlatforms();
 
 			doCollisionDetection();
 
@@ -56,7 +49,6 @@
 		 * Do this function when entering the scene.
 		 */
 		override public function onBegin(): void {
-			//bttnPlay.addEventListener(MouseEvent.MOUSE_DOWN, handleClickPlay);
 			trace("Enter PlayScene. Press 1 to goto title scene. Press 3 to goto lose scene.");
 			var startingPlatform = new Platform();
 			startingPlatform.x = 0;
@@ -71,7 +63,6 @@
 		 * Do this function when entering the scene.
 		 */
 		override public function onEnd(): void {
-			//bttnPlay.removeEventListener(MouseEvent.MOUSE_DOWN, handleClickPlay);
 			trace("Exit PlayScene");
 		}
 
@@ -132,6 +123,13 @@
 
 
 		}
+		private function updateScore():void {
+			score = score + 1;
+			textScore.text = "Score: " + score;
+			LoseScene.finalScore = score;
+			trace(score);
+		}
+		
 
 		/**
 		 * Checks for collisions and readjusts the plays position when needed.
@@ -179,3 +177,17 @@
 
 }
 
+
+		public var score:Number = 0;
+		private var platforms = new Array();
+
+		/** An Array for all the Enemy Objects */
+		private var enemies = new Array();
+
+		/** The amount of time in ms until an enemy should spawn */
+		private var msTimeUntilEnemySpawn = 1; //1 seconds
+
+			updatePlatforms();
+			updateEnemies();
+			updatePlatforms();
+			updateScore();
