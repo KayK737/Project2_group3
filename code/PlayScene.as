@@ -17,6 +17,8 @@
 
 		/** An Array for all the platform objects */
 		private var platforms = new Array();
+		
+		private var score:Number = 0;
 
 		/** the play scene Constructor */
 		public function PlayScene() {
@@ -24,6 +26,7 @@
 			addChild(player);
 			player.x = 275;
 			player.y = 200;
+			
 		}
 
 		/**
@@ -39,6 +42,8 @@
 			handleNextScene();
 
 			updatePlatforms();
+			updateScore();
+			
 
 			return null;
 		}
@@ -124,6 +129,12 @@
 
 
 		}
+		private function updateScore():void {
+			score = score + Time.dt;
+			textScore.text = "Score: " + score;
+			trace(score);
+		}
+		
 
 	}
 
