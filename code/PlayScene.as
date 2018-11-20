@@ -15,6 +15,12 @@
 
 		/** An Array for all the platform objects */
 		private var platforms = new Array();
+		
+		/** An Array for all the Enemy Objects */
+		private var enemies = new Array();
+		
+		/** The amount of time in ms until an enemy should spawn */
+		private var msTimeUntilEnemySpawn = 1; //1 seconds
 
 		/** the play scene Constructor */
 		public function PlayScene() {
@@ -37,6 +43,7 @@
 			handleNextScene();
 
 			updatePlatforms();
+			updateEnemies();
 
 			return null;
 		}
@@ -85,10 +92,8 @@
 			for (var i = platforms.length - 1; i >= 0; i--) {
 				platforms[i].update();
 				if (i == platforms.length - 1) { //if the most recent platform
-					trace("most recent");
 					if (platforms[i].x < this.stage.stageWidth - platforms[i].width + 20) {
 						shouldSpawnNewPlatform = true;
-						trace("should spawn new platform");
 					}
 				}
 
@@ -123,6 +128,27 @@
 			platforms.push(newPlatform);
 
 
+		}
+		
+		/** 
+		* updates all the enemies in the enemies collection 
+		*/
+		private function updateEnemies():void {
+			msTimeUntilEnemySpawn -= Time.dt;
+			
+
+
+			if (msTimeUntilEnemySpawn <= 0) {
+				var newEnemy = Enemy.spawnEnemy(stage, platforms[platforms.length - 1]);
+				enemies.push(newEnemy);
+				this.addChild(newEnemy);
+				msTimeUntilEnemySpawn = 3;
+			}
+			
+			for (var i = enemies.length - 1; i >= 0; i--) {
+				var enemy = enemies[i];
+			}
+			
 		}
 
 	}
