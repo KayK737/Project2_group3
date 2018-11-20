@@ -1,7 +1,5 @@
 ﻿package code {
 	import flash.ui.Keyboard;
-	import flash.events.MouseEvent;
-	import flash.display.MovieClip;
 
 	/** The main scene of the game
 	 * All the gameplay logic comes in here
