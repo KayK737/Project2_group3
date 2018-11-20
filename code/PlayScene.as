@@ -13,6 +13,15 @@
 		private var shouldSwitchToTitle: Boolean = false;
 		/** Keeps track of if it should switch to a lose scene. */
 		private var shouldSwitchToLose: Boolean = false;
+		private var cameraOffSetY: Number;
+		/** The Y position that Low Platforms will spawn at. */
+		private var lowPlatformY: Number = 600;
+		/** The Y position that Middle Platforms will spawn at. */
+		private var midPlatformY: Number = 480;
+		/** The Y position that High Platforms will spawn at. */
+		private var highPlatformY: Number = 380;
+		
+		var lastPlatform : Number = lowPlatformY;
 
 		/** An Array for all the platform objects */
 		private var platforms = new Array();
@@ -51,6 +60,10 @@
 			updateScore();
 
 			doCollisionDetection();
+			
+			calcCameraOffSet();
+			
+			moveCamera();
 
 			return null;
 		}
@@ -115,16 +128,19 @@
 			var newLength = (Math.random() * 13 + 2) * 50;
 			newPlatform.width = newLength;
 
-			if (mostCurrentPlatform.y == 380 || mostCurrentPlatform.y == 600) {
-				newPlatform.y = 480;
+			if (lastPlatform == highPlatformY || lastPlatform == lowPlatformY) {
+				newPlatform.y = midPlatformY;
 				newPlatform.height = 240;
-			} else if (mostCurrentPlatform.y == 480) {
+				lastPlatform = midPlatformY;
+			} else if (lastPlatform == midPlatformY) {
 				var rand = Math.random();
 				if (rand > .5) {
-					newPlatform.y = 380;
+					newPlatform.y = highPlatformY;
 					newPlatform.height = 360;
+					lastPlatform = highPlatformY;
 				} else {
-					newPlatform.y = 600;
+					newPlatform.y = lowPlatformY;
+					lastPlatform = lowPlatformY;
 				}
 			}
 			newPlatform.x = mostCurrentPlatform.x + mostCurrentPlatform.width;
@@ -159,6 +175,24 @@
 			}
 
 		} // ends doCollisionDetection 
+		
+		/**
+		 * This moves everything in the scene to make create a camera moving effect.
+		 * Everything in the game world that is not the player goes in here.
+		 */
+		private function moveCamera(): void{
+			for(var i: int = 0; i < platforms.length; i++){
+				platforms[i].y += cameraOffSetY/50;
+			}
+		}
+		/**
+		 * This calculates how far the player is from the middle of the screen.
+		 * The distance from the middle of the screen is the cameraOffSet.
+		 */ 
+		private function calcCameraOffSet():void{
+			cameraOffSetY = this.stage.stageHeight/2 - player.y;
+			//trace(cameraOffSetY);
+		}
 
 
 		/** 
