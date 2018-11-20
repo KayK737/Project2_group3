@@ -2,13 +2,13 @@
 	import flash.ui.Keyboard;
 	import flash.geom.Point;
 
-	/** The main scene of the game
+	/** 
+	 * The main scene of the game
 	 * All the gameplay logic comes in here
-	*/
+	 */
 	public class PlayScene extends GameScene {
-
+		/** Keeps track of the player object. */
 		private var player: Player;
-
 		/** Keeps track of if it should switch to a title scene. */
 		private var shouldSwitchToTitle: Boolean = false;
 		/** Keeps track of if it should switch to a lose scene. */

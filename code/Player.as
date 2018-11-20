@@ -40,6 +40,10 @@
 			collider = new AABB(width / 2, height / 2);
 		}
 		
+		/**
+		 * Updates the player object.
+		 * Everything that needs to run continuously goes here.
+		 */
 		public function update():void{
 			handleWalking();
 			
