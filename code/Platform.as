@@ -6,7 +6,7 @@
 	public class Platform extends MovieClip {
 		
 		/** The amount that the platform moves per second in the horizontal direction */
-		private var horizontalVelocity = -100;
+		private var horizontalVelocity = -200;
 		/** The platform's AABB for collision detection. */
 		public var collider: AABB;
 		
@@ -28,8 +28,10 @@
 			collider.calcEdges(x, y);
 			//trace(width, height);
 			collider.setSizes(width/2, height/2);
-			
-		}
-	}
+			if(this.x <= -500){
+				isDead = true;
+			}
+		}//end update
+	}//end Class Platform
 	
-}
+}//end package
