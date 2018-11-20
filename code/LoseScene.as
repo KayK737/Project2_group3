@@ -2,6 +2,7 @@
 
 	import flash.display.MovieClip;
 	import flash.ui.Keyboard;
+	import flash.events.MouseEvent;
 
 	public class LoseScene extends GameScene {
 
@@ -29,7 +30,7 @@
 		 * Do this function when entering the scene.
 		 */
 		override public function onBegin(): void {
-			//bttnPlay.addEventListener(MouseEvent.MOUSE_DOWN, handleClickPlay);
+			bttnPlay.addEventListener(MouseEvent.MOUSE_DOWN, handleClickPlay);
 			trace("Enter LoseScene. Press 2 to goto play scene. Press 1 to goto title scene.");
 		}
 
@@ -37,7 +38,7 @@
 		 * Do this function when entering the scene.
 		 */
 		override public function onEnd(): void {
-			//bttnPlay.removeEventListener(MouseEvent.MOUSE_DOWN, handleClickPlay);
+			bttnPlay.removeEventListener(MouseEvent.MOUSE_DOWN, handleClickPlay);
 			trace("Exit LoseScene");
 		}
 
