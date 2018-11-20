@@ -17,6 +17,12 @@
 		/** An Array for all the platform objects */
 		private var platforms = new Array();
 
+		/** An Array for all the Enemy Objects */
+		private var enemies = new Array();
+
+		/** The amount of time in ms until an enemy should spawn */
+		private var msTimeUntilEnemySpawn = 1; //1 seconds
+
 		/** the play scene Constructor */
 		public function PlayScene() {
 			player = new Player();
@@ -38,6 +44,10 @@
 			handleNextScene();
 
 			updatePlatforms();
+			updateEnemies();
+			updatePlatforms();
+
+			doCollisionDetection();
 
 			return null;
 		}
@@ -76,27 +86,25 @@
 				shouldSwitchToTitle = true;
 			}
 		}
-		
+
 		/**
-		*	Updates all the platforms in the platforms collection;
-		*/
+		 *	Updates all the platforms in the platforms collection;
+		 */
 		private function updatePlatforms(): void {
 			var shouldSpawnNewPlatform = false;
-			
+
 			for (var i = platforms.length - 1; i >= 0; i--) {
 				platforms[i].update();
 				if (i == platforms.length - 1) { //if the most recent platform
-					trace("most recent");
 					if (platforms[i].x < this.stage.stageWidth - platforms[i].width + 20) {
 						shouldSpawnNewPlatform = true;
-						trace("should spawn new platform");
 					}
 				}
 
 			}
 			if (shouldSpawnNewPlatform) spawnNewPlatform();
 		}
-		
+
 		/**
 		 * Determines spawns a new platform who's position depends on the previous platforms's position
 		 */
@@ -114,8 +122,7 @@
 				if (rand > .5) {
 					newPlatform.y = 380;
 					newPlatform.height = 360;
-				}
-				else {
+				} else {
 					newPlatform.y = 600;
 				}
 			}
@@ -126,25 +133,6 @@
 
 		}
 
-	}
-
-}
-		private var platforms = new Array();
-		
-		/** An Array for all the Enemy Objects */
-		private var enemies = new Array();
-		
-		/** The amount of time in ms until an enemy should spawn */
-		private var msTimeUntilEnemySpawn = 1; //1 seconds
-			updateEnemies();
-			updatePlatforms();
-			
-			doCollisionDetection();
-				if (i == platforms.length - 1) { //if the most recent platform
-					if (platforms[i].x < this.stage.stageWidth - platforms[i].width + 20) {
-						shouldSpawnNewPlatform = true;
-		}
-		
 		/**
 		 * Checks for collisions and readjusts the plays position when needed.
 		 */
@@ -158,21 +146,19 @@
 					player.applyFix(fix);
 				}
 			} // ends for loop
-			if(player.y > 750 || player.x < -30){
+			if (player.y > 750 || player.x < -30) {
 				shouldSwitchToLose = true;
 			}
 
 		} // ends doCollisionDetection 
-		
-		
-		}
-		
+
+
 		/** 
-		* updates all the enemies in the enemies collection 
-		*/
-		private function updateEnemies():void {
+		 * updates all the enemies in the enemies collection
+		 */
+		private function updateEnemies(): void {
 			msTimeUntilEnemySpawn -= Time.dt;
-			
+
 
 
 			if (msTimeUntilEnemySpawn <= 0) {
@@ -181,9 +167,15 @@
 				this.addChild(newEnemy);
 				msTimeUntilEnemySpawn = 3;
 			}
-			
+
 			for (var i = enemies.length - 1; i >= 0; i--) {
 				var enemy = enemies[i];
 			}
-			
+
 		}
+
+	}
+
+
+}
+

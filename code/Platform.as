@@ -15,7 +15,7 @@
 			//trace(width, height);
 
 			collider.calcEdges(x, y);
-			PlayScene.platforms.push(this);
+			//PlayScene.platforms.push(this);
 			// constructor code
 		}
 		
