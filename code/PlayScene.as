@@ -13,6 +13,12 @@
 		private var shouldSwitchToTitle: Boolean = false;
 		/** Keeps track of if it should switch to a lose scene. */
 		private var shouldSwitchToLose: Boolean = false;
+		
+		private var cameraOffSetY: Number;
+		
+		private var lowPlatformY: Number = 600;
+		private var midPlatformY: Number = 480;
+		private var highPlatformY: Number = 380;
 
 		/** An Array for all the platform objects */
 		static public var platforms = new Array();
@@ -40,6 +46,10 @@
 			updatePlatforms();
 			
 			doCollisionDetection();
+			
+			calcCameraOffSet();
+			
+			moveCamera();
 
 			return null;
 		}
@@ -108,17 +118,17 @@
 			var newLength = (Math.random() * 13 + 2) * 50;
 			newPlatform.width = newLength;
 
-			if (mostCurrentPlatform.y == 380 || mostCurrentPlatform.y == 600) {
-				newPlatform.y = 480;
+			if (mostCurrentPlatform.y == highPlatformY || mostCurrentPlatform.y == lowPlatformY) {
+				newPlatform.y = midPlatformY;
 				newPlatform.height = 240;
-			} else if (mostCurrentPlatform.y == 480) {
+			} else if (mostCurrentPlatform.y == midPlatformY) {
 				var rand = Math.random();
 				if (rand > .5) {
-					newPlatform.y = 380;
+					newPlatform.y = highPlatformY;
 					newPlatform.height = 360;
 				}
 				else {
-					newPlatform.y = 600;
+					newPlatform.y = lowPlatformY;
 				}
 			}
 			newPlatform.x = mostCurrentPlatform.x + mostCurrentPlatform.width;
@@ -147,7 +157,16 @@
 
 		} // ends doCollisionDetection 
 		
+		private function moveCamera(): void{
+			for(var i: int = 0; i < platforms.length; i++){
+				platforms[i].y += cameraOffSetY/100;
+			}
+		}
 		
+		private function calcCameraOffSet():void{
+			cameraOffSetY = this.stage.stageHeight/2 - player.y;
+			trace(cameraOffSetY);
+		}
 
 	}
 
