@@ -1,5 +1,6 @@
 ﻿package code {
 	import flash.ui.Keyboard;
+	import flash.geom.Point;
 
 	/** The main scene of the game
 	 * All the gameplay logic comes in here
@@ -14,7 +15,7 @@
 		private var shouldSwitchToLose: Boolean = false;
 
 		/** An Array for all the platform objects */
-		private var platforms = new Array();
+		static public var platforms = new Array();
 
 		/** the play scene Constructor */
 		public function PlayScene() {
@@ -37,6 +38,8 @@
 			handleNextScene();
 
 			updatePlatforms();
+			
+			doCollisionDetection();
 
 			return null;
 		}
@@ -124,6 +127,22 @@
 
 
 		}
+		
+		/**
+		 * Checks for collisions and readjusts the plays position when needed.
+		 */
+		private function doCollisionDetection(): void {
+
+			for (var i: int = 0; i < platforms.length; i++) {
+				if (player.collider.checkOverlap(platforms[i].collider)) { // if overlapping
+					// find the fix:
+					var fix: Point = player.collider.findOverlapFix(platforms[i].collider);
+					// apply the fix:
+					player.applyFix(fix);
+				}
+			} // ends for loop
+
+		} // ends doCollisionDetection 
 
 	}
 

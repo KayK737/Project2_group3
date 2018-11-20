@@ -21,9 +21,9 @@
 		 * @param halfWidth Half the width of this AABB
 		 * @param halfHeight Half the height of this AABB
 		 */
-		public function AABB(halfWidth: Number, halfHeight: Number) {
+		public function AABB(halfWidth: Number, halfHeight: Number): void {
 			// constructor code
-			setSize(halfWidth, halfHeight);
+			setSizes(halfWidth, halfHeight);
 		}
 
 		/**
@@ -31,7 +31,7 @@
 		 * @param halfWidth Half the width of this AABB
 		 * @param halfHeight Half the height of this AABB
 		 */
-		public function setSize(halfWidth: Number, halfHeight: Number): void {
+		public function setSizes(halfWidth: Number, halfHeight: Number): void {
 			this.halfWidth = halfWidth;
 			this.halfHeight = halfHeight;
 			// recalculate edges
@@ -56,10 +56,13 @@
 		 */
 		public function checkOverlap(other: AABB): Boolean {
 
+			//trace(other.xmax);
 			if (this.xmax < other.xmin) return false; // gap to the right of the player
 			if (this.xmin > other.xmax) return false; // gap to the left
 			if (this.ymin > other.ymax) return false; // gap below
 			if (this.ymax < other.ymin) return false; // gap above
+
+			//trace("hit");
 
 			return true;
 		}
@@ -83,7 +86,9 @@
 			fix.y = (Math.abs(moveU) < Math.abs(moveD)) ? moveU : moveD;
 
 			if (Math.abs(fix.x) < Math.abs(fix.y)) fix.y = 0;
+
 			else fix.x = 0;
+			//trace(fix);
 
 			return fix;
 

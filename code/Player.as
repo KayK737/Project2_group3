@@ -10,9 +10,9 @@
 	public class Player extends MovieClip {
 		
 		/** Holds the base gravity that the player will always be reset to. */
-		private const baseGravity: Point = new Point(0, 2500);
+		private const baseGravity: Point = new Point(0, 1000);
 		/** Holds the curret gravity of the player. */
-		private var gravity: Point = new Point(0, 2500);
+		private var gravity: Point = new Point(0, 1000);
 		/** The X and Y velocity of the player. */
 		private var velocity: Point = new Point(0, 0);
 		/** The maximum horizontal Speed the player can reach. */
@@ -49,7 +49,11 @@
 			
 			collider.calcEdges(x,y);
 			
-			detectGround();
+			isGrounded = false;
+			
+			//trace(y);
+			
+			//detectGround();
 		}
 		
 		/**
@@ -132,6 +136,27 @@
 				if (isGrounded == false) isGrounded = true;
 				isJumping = false;
 			}
+		}
+		
+		/** 
+		 * This moves the player out of a collision zone when they are colliding with an object.
+		 * @param fix The adjustment to the player's x and y position.
+		 */
+		public function applyFix(fix: Point): void {
+			if (fix.x != 0) {
+				x += fix.x;
+				velocity.x = 0;
+			}
+			if (fix.y != 0) {
+				y += fix.y;
+				velocity.y = 0;
+			}
+			if (fix.y < 0) { //moved player up (they are standing on ground).
+				isGrounded = true;
+				isJumping = false;
+				jumpCount = 0;
+			}
+			collider.calcEdges(x, y);
 		}
 
 	}

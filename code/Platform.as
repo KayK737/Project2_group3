@@ -6,14 +6,15 @@
 	public class Platform extends MovieClip {
 		
 		/** The amount that the platform moves per second in the horizontal direction */
-		private var horizontalVelocity = -200;
+		private var horizontalVelocity = -100;
 		/** The platform's AABB for collision detection. */
 		public var collider: AABB;
 		
 		public function Platform() {
-			collider = new AABB(width / 2, height / 2);
-			collider.calcEdges(x, y);
+			collider = new AABB(width/2, height/2);
+			//trace(width, height);
 
+			collider.calcEdges(x, y);
 			PlayScene.platforms.push(this);
 			// constructor code
 		}
@@ -24,6 +25,10 @@
 		*/
 		public function update():void {
 			this.x += horizontalVelocity * Time.dt;
+			collider.calcEdges(x, y);
+			//trace(width, height);
+			collider.setSizes(width/2, height/2);
+			
 		}
 	}
 	
