@@ -1,6 +1,7 @@
 ﻿package code {
 
 	import flash.display.Stage;
+	import flash.display.MovieClip;
 
 	/** 
 	 * The SpikyEnemy is the enemy which charges at the player attempting to collide with them

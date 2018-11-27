@@ -1,5 +1,6 @@
 ﻿package code {
 	import flash.display.Stage;
+	import flash.display.MovieClip;
 
 	/** 
 	 * The Flying is the enemy which flies at the top of the level
@@ -15,7 +16,6 @@
 		public function FlyingEnemy(gameStage: Stage) {
 			this.x = gameStage.stageWidth - 100;
 			this.y = 100;
-			// constructor code
 		}
 
 		/**

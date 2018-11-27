@@ -1,6 +1,7 @@
 ﻿package code {
 	import flash.events.MouseEvent;
 	import flash.ui.Keyboard;
+	import flash.display.MovieClip;
 
 	public class TitleScene extends GameScene {
 
