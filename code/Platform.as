@@ -6,7 +6,7 @@
 	public class Platform extends MovieClip {
 		
 		/** The amount that the platform moves per second in the horizontal direction */
-		private var horizontalVelocity = -100;
+		private var horizontalVelocity = -200;
 		/** The platform's AABB for collision detection. */
 		public var collider: AABB;
 		

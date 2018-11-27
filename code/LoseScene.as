@@ -31,8 +31,10 @@
 		 * Do this function when entering the scene.
 		 */
 		override public function onBegin(): void {
+			bttnReset.x = 640
+			bttnReset.y = 360
 			bttnReset.addEventListener(MouseEvent.MOUSE_DOWN, handleClickReset);
-			bttnReset.addEventListener(MouseEvent.MOUSE_DOWN, handleClickTitle);
+			//bttnReset.addEventListener(MouseEvent.MOUSE_DOWN, handleClickTitle);
 			
 		}
 
@@ -46,7 +48,7 @@
 
 		/**
 		 * Decides if it should switch scenes and to what one depending on the button
-		* the user clicked 
+		 * the user clicked 
 		 */
 
 		private function handleClickReset(e:MouseEvent):void{

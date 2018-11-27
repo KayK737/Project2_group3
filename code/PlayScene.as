@@ -13,8 +13,15 @@
 		private var shouldSwitchToTitle: Boolean = false;
 		/** Keeps track of if it should switch to a lose scene. */
 		private var shouldSwitchToLose: Boolean = false;
-		/** Keeps track of if it should switch to a lose scene. */
+		private var cameraOffSetY: Number = 0;
+		/** The height that Low Platforms will spawn with. */
+		private var lowPlatformHeight: Number = 120;
+		/** The Y height that Middle Platforms will spawn with. */
+		private var midPlatformHeight: Number = 360;
+		/** The Y height that High Platforms will spawn with. */
+		private var highPlatformHeight: Number = 600;
 		private var buffSpike: Boolean = false;
+		/** Keeps track of if it should switch to a lose scene. */
 		/** Keeps track of if it should switch to a lose scene. */
 		private var buffFlame: Boolean = false;
 		/** Keeps track of if it should switch to a lose scene. */
@@ -23,7 +30,7 @@
 		/** An Array for all the platform objects */
 		private var platforms = new Array();
 		
-				public var score:Number = 0;
+		public var score:Number = 0;
 
 		/** An Array for all the Enemy Objects */
 		private var enemies = new Array();
@@ -36,7 +43,7 @@
 			player = new Player();
 			addChild(player);
 			player.x = 275;
-			player.y = 200;
+			player.y = 360;
 			
 		}
 
@@ -52,6 +59,9 @@
 			if (shouldSwitchToTitle) return new TitleScene();
 			handleNextScene();
 
+			calcCameraOffSet();
+			moveCamera();
+			
 			updatePlatforms();
 			updateEnemies();
 			updateScore();
@@ -59,6 +69,8 @@
 			updateBullets();
 
 			doCollisionDetection();
+			
+			
 
 			return null;
 		}
@@ -69,9 +81,9 @@
 		override public function onBegin(): void {
 			trace("Enter PlayScene. Press 1 to goto title scene. Press 3 to goto lose scene.");
 			var startingPlatform = new Platform();
-			startingPlatform.x = 0;
-			startingPlatform.y = 600;
-			startingPlatform.width = 1280;
+			startingPlatform.x = 800;
+			startingPlatform.y = 560;
+			startingPlatform.width = 1000;
 			this.addChild(startingPlatform);
 			platforms.push(startingPlatform);
 
@@ -105,7 +117,7 @@
 			for (var i = platforms.length - 1; i >= 0; i--) {
 				platforms[i].update();
 				if (i == platforms.length - 1) { //if the most recent platform
-					if (platforms[i].x < this.stage.stageWidth - platforms[i].width + 20) {
+					if (platforms[i].x < this.stage.stageWidth - platforms[i].width + 500) {
 						shouldSpawnNewPlatform = true;
 					}
 				}
@@ -120,21 +132,23 @@
 		private function spawnNewPlatform(): void {
 			var mostCurrentPlatform = platforms[platforms.length - 1];
 			var newPlatform = new Platform();
-			var newLength = (Math.random() * 13 + 2) * 50;
+			var newLength = (Math.random() * 8 + 2) * 50;
 			newPlatform.width = newLength;
 
-			if (mostCurrentPlatform.y == 380 || mostCurrentPlatform.y == 600) {
-				newPlatform.y = 480;
-				newPlatform.height = 240;
-			} else if (mostCurrentPlatform.y == 480) {
+			if (mostCurrentPlatform.height == highPlatformHeight || mostCurrentPlatform.height == lowPlatformHeight) {
+				newPlatform.y = mostCurrentPlatform.y ;
+				newPlatform.height = midPlatformHeight;
+			} else if (mostCurrentPlatform.height == midPlatformHeight) {
 				var rand = Math.random();
 				if (rand > .5) {
-					newPlatform.y = 380;
-					newPlatform.height = 360;
+					newPlatform.y = mostCurrentPlatform.y /* -cameraOffSetY/30 */;
+					newPlatform.height = highPlatformHeight;
 				} else {
-					newPlatform.y = 600;
+					newPlatform.y = mostCurrentPlatform.y /* -cameraOffSetY/30 */;
 				}
 			}
+			//trace(cameraOffSetY);
+			//trace(newPlatform.y);
 			newPlatform.x = mostCurrentPlatform.x + mostCurrentPlatform.width;
 			this.addChild(newPlatform);
 			platforms.push(newPlatform);
@@ -145,7 +159,7 @@
 			score = score + 1;
 			textScore.text = "Score: " + score;
 			LoseScene.finalScore = score;
-			trace(score);
+			//trace(score);
 		}
 		
 
@@ -162,20 +176,36 @@
 					player.applyFix(fix);
 				}
 			} // ends for loop
-			if (player.y > 750 || player.x < -30) {
+			if (player.y > 750 && player.y > platforms[1].y || player.x < -30) {
 				shouldSwitchToLose = true;
 			}
 
 		} // ends doCollisionDetection 
-
+		
+		/**
+		 * This moves everything in the scene to make create a camera moving effect.
+		 * Everything in the game world that is not the player goes in here.
+		 */
+		private function moveCamera(): void{
+			for(var i: int = 0; i < platforms.length; i++){
+				platforms[i].y += cameraOffSetY/30;
+			}
+		}
+		
+		/**
+		 * This calculates how far the player is from the middle of the screen.
+		 * The distance from the middle of the screen is the cameraOffSet.
+		 */ 
+		private function calcCameraOffSet():void{
+			cameraOffSetY = this.stage.stageHeight/2 - player.y;
+			//trace(cameraOffSetY);
+		}
 
 		/** 
 		 * updates all the enemies in the enemies collection
 		 */
 		private function updateEnemies(): void {
 			msTimeUntilEnemySpawn -= Time.dt;
-
-
 
 			if (msTimeUntilEnemySpawn <= 0) {
 				var newEnemy = Enemy.spawnEnemy(stage, platforms[platforms.length - 1]);
@@ -200,7 +230,6 @@
 		}
 
 	}
-
 
 }
 

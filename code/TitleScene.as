@@ -25,6 +25,8 @@
 		 * Do this function when entering the scene.
 		 */
 		override public function onBegin(): void {
+			bttnPlay.x = 640
+			bttnPlay.y = 360
 			bttnPlay.addEventListener(MouseEvent.MOUSE_DOWN, handleClickPlay);
 			trace("Enter TitleScene. Press 2 to goto the play scene.");
 		}
