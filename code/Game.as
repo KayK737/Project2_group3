@@ -14,6 +14,7 @@
 		/** This keeps track of the keyboard's state. */
 		private var keyboard: KeyboardInput;
 
+
 		//KeyboardInput.setup(stage);
 
 
@@ -43,7 +44,6 @@
 			if (gameScene) switchScene(gameScene.update(keyboard));
 
 			Time.update();
-			//trace(Time.dt);
 			KeyboardInput.update();
 
 		} // ends gameLoop

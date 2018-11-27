@@ -21,11 +21,11 @@
 		/** The Y height that High Platforms will spawn with. */
 		private var highPlatformHeight: Number = 600;
 		private var buffSpike: Boolean = false;
-		/** Keeps track of if it should switch to a lose scene. */
-		/** Keeps track of if it should switch to a lose scene. */
-		/** Keeps track of if it should switch to a lose scene. */
 		private var buffFlame: Boolean = false;
 		private var buffWing: Boolean = false;
+		
+		/** This implements particles into the game */
+		public var particles:Array = new Array();
 
 		/** An Array for all the platform objects */
 		private var platforms = new Array();
@@ -67,6 +67,9 @@
 			updateScore();
 			updateBuffs();
 			updateBullets();
+			spawnParticles();
+			updateParticles();
+	
 
 			doCollisionDetection();
 			
@@ -79,7 +82,6 @@
 		 * Do this function when entering the scene.
 		 */
 		override public function onBegin(): void {
-			trace("Enter PlayScene. Press 1 to goto title scene. Press 3 to goto lose scene.");
 			var startingPlatform = new Platform();
 			startingPlatform.x = 800;
 			startingPlatform.y = 560;
@@ -228,6 +230,22 @@
 			
 			
 		}
+		private function spawnParticles(){
+			var p:Particle = new Particle(mouseX, mouseY);
+			addChild(p);
+			particles.push(p);
+		}
+		private function updateParticles():void {
+			for(var i:int = 0; i < particles.length; i++){
+				particles[i].update();
+				if(particles[i].isDead){
+					//remove the particle...
+					removeChild(particles[i]);
+					particles.splice(i, 1);
+				}
+			}//end of loop
+		}
+		
 
 	}
 
