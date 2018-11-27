@@ -1,14 +1,14 @@
 ﻿package code {
-	
+
 	import flash.display.MovieClip;
 	import flash.geom.Point;
 	import flash.ui.Keyboard;
-	
+
 	/**
 	 * This class contains the behavior of the player object.
 	 */
 	public class Player extends MovieClip {
-		
+
 		/** Holds the base gravity that the player will always be reset to. */
 		private const baseGravity: Point = new Point(0, 2000);
 		/** Holds the curret gravity of the player. */
@@ -33,43 +33,48 @@
 		private var jumpVelocity: Number = 600;
 		/** The player's AABB for collision detection. */
 		public var collider: AABB;
-		
-		
+
+
 		public function Player() {
 			// constructor code
 			collider = new AABB(width / 2, height / 2);
 		}
-		
+
 		/**
 		 * Updates the player object.
 		 * Everything that needs to run continuously goes here.
 		 */
-		public function update():void{
+		public function update(): void {
 			handleWalking();
-			
+
 			handleJumping();
-			
+
 			doPhysics();
-			
-			collider.calcEdges(x,y);
-			
+
+			collider.calcEdges(x, y);
+
 			isGrounded = false;
-			
+
 			//trace(y);
-			
+
 			//detectGround();
 		}
-		
+
 		/**
 		 * This function looks at the keyboard input in order to accelerate the player
 		 * left or right. As a result , this function changes the player's velocity.
 		 */
 		private function handleWalking(): void {
-			
+
 			if (KeyboardInput.IsKeyDown(Keyboard.LEFT) || KeyboardInput.IsKeyDown(Keyboard.A)) velocity.x -= HORIZONTAL_ACCELERATION * Time.dt;
-			if (KeyboardInput.IsKeyDown(Keyboard.RIGHT) || KeyboardInput.IsKeyDown(Keyboard.D)){
+			if (KeyboardInput.IsKeyDown(Keyboard.RIGHT) || KeyboardInput.IsKeyDown(Keyboard.D)) {
+				if (x < 700){
 					velocity.x += HORIZONTAL_ACCELERATION * Time.dt;
-				}			
+				}else{
+					x = 700;
+					velocity.x = 0;
+				}
+			}
 
 
 			if (!KeyboardInput.IsKeyDown(Keyboard.LEFT) && !KeyboardInput.IsKeyDown(Keyboard.RIGHT) && !KeyboardInput.IsKeyDown(Keyboard.A) && !KeyboardInput.IsKeyDown(Keyboard.D)) {
@@ -81,9 +86,10 @@
 					velocity.x -= HORIZONTAL_DECELERATION * Time.dt;
 					if (velocity.x < 0) velocity.x = 0; //clamp
 				}
+				if (x == 700) x -= 1;
 			}
-		}//end handleWalking
-		
+		} //end handleWalking
+
 		/**
 		 * This function looks at the keyboard input to tell when the player can and should jump.
 		 */
@@ -107,8 +113,8 @@
 				gravity.y = baseGravity.y;
 			}
 			if (velocity.y > 0) isJumping = false;
-		}// end handleJumping
-		
+		} // end handleJumping
+
 		/**
 		 * The physics that govern the player's position.
 		 */
@@ -128,8 +134,9 @@
 			// apply velocity to position:
 			x += velocity.x * Time.dt;
 			y += velocity.y * Time.dt;
-		}//end doPhysics
-		
+			trace(velocity.x);
+		} //end doPhysics
+
 		/**
 		 * This function sets a maximum y value that the player can not cross.
 		 */
@@ -144,7 +151,7 @@
 				isJumping = false;
 			}
 		}
-		
+
 		/** 
 		 * This moves the player out of a collision zone when they are colliding with an object.
 		 * @param fix The adjustment to the player's x and y position.
@@ -167,5 +174,5 @@
 		}
 
 	}
-	
+
 }

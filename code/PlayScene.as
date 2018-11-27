@@ -81,7 +81,7 @@
 		override public function onBegin(): void {
 			trace("Enter PlayScene. Press 1 to goto title scene. Press 3 to goto lose scene.");
 			var startingPlatform = new Platform();
-			startingPlatform.x = 800;
+			startingPlatform.x = 700;
 			startingPlatform.y = 560;
 			startingPlatform.width = 1000;
 			this.addChild(startingPlatform);
@@ -187,8 +187,13 @@
 		 * Everything in the game world that is not the player goes in here.
 		 */
 		private function moveCamera(): void{
+			///trace(player.x);
 			for(var i: int = 0; i < platforms.length; i++){
 				platforms[i].y += cameraOffSetY/30;
+				if(player.x == 700){
+					platforms[i].x -= 300*Time.dt;
+					//trace("working");
+				}
 			}
 		}
 		
