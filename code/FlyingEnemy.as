@@ -15,7 +15,6 @@
 		public function FlyingEnemy(gameStage: Stage) {
 			this.x = gameStage.stageWidth - 100;
 			this.y = 100;
-			// constructor code
 		}
 
 		/**

@@ -56,6 +56,7 @@
 			updateEnemies();
 			updateScore();
 			updateBuffs();
+			updateBullets();
 
 			doCollisionDetection();
 
@@ -191,6 +192,10 @@
 		private function updateBuffs(): void {
 			/*insert here means to determine what enemies were killed this wave and 
 			 * what buff will spawn with it */
+			
+		}
+		private function updateBuffs(): void {
+			
 			
 		}
 
