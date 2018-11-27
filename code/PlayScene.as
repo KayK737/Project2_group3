@@ -194,7 +194,7 @@
 			 * what buff will spawn with it */
 			
 		}
-		private function updateBuffs(): void {
+		private function updateBullets(): void {
 			
 			
 		}

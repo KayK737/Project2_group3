@@ -8,7 +8,7 @@
 		
 		public function BFlames() {
 			/*where the buff will spawn when flying enemy dies */
-			this.x = gameStage.stageWidth - 100;
+			this.x = 500;
 			this.y = 100;
 		}
 	}

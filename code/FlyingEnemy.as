@@ -1,5 +1,6 @@
 ﻿package code {
 	import flash.display.Stage;
+	import flash.display.MovieClip;
 
 	/** 
 	 * The Flying is the enemy which flies at the top of the level
