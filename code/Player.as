@@ -134,7 +134,9 @@
 			// apply velocity to position:
 			x += velocity.x * Time.dt;
 			y += velocity.y * Time.dt;
-			trace(velocity.x);
+			//trace(velocity.x);
+			
+			if (x < 0) x = 0;
 		} //end doPhysics
 
 		/**

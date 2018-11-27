@@ -156,7 +156,7 @@
 
 		}
 		private function updateScore():void {
-			score = score + 1;
+			if(player.x == 700)score = score + 1;
 			textScore.text = "Score: " + score;
 			LoseScene.finalScore = score;
 			//trace(score);
@@ -176,7 +176,7 @@
 					player.applyFix(fix);
 				}
 			} // ends for loop
-			if (player.y > 750 && player.y > platforms[1].y || player.x < -30) {
+			if (player.y > 750 && player.y > platforms[1].y) {
 				shouldSwitchToLose = true;
 			}
 
@@ -189,10 +189,9 @@
 		private function moveCamera(): void{
 			///trace(player.x);
 			for(var i: int = 0; i < platforms.length; i++){
-				platforms[i].y += cameraOffSetY/30;
+				platforms[i].y += cameraOffSetY * Time.dt;
 				if(player.x == 700){
 					platforms[i].x -= 300*Time.dt;
-					//trace("working");
 				}
 			}
 		}
