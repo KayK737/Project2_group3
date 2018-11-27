@@ -13,6 +13,12 @@
 		private var shouldSwitchToTitle: Boolean = false;
 		/** Keeps track of if it should switch to a lose scene. */
 		private var shouldSwitchToLose: Boolean = false;
+		/** Keeps track of if it should switch to a lose scene. */
+		private var buffSpike: Boolean = false;
+		/** Keeps track of if it should switch to a lose scene. */
+		private var buffFlame: Boolean = false;
+		/** Keeps track of if it should switch to a lose scene. */
+		private var buffWing: Boolean = false;
 
 		/** An Array for all the platform objects */
 		private var platforms = new Array();
@@ -49,6 +55,7 @@
 			updatePlatforms();
 			updateEnemies();
 			updateScore();
+			updateBuffs();
 
 			doCollisionDetection();
 
@@ -180,6 +187,11 @@
 				var enemy = enemies[i];
 			}
 
+		}
+		private function updateBuffs(): void {
+			/*insert here means to determine what enemies were killed this wave and 
+			 * what buff will spawn with it */
+			
 		}
 
 	}
