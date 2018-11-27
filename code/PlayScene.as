@@ -14,19 +14,17 @@
 		/** Keeps track of if it should switch to a lose scene. */
 		private var shouldSwitchToLose: Boolean = false;
 		private var cameraOffSetY: Number = 0;
-		/** The Y position that Low Platforms will spawn at. */
-		private var lowPlatformY: Number = 600;
-		/** The Y position that Middle Platforms will spawn at. */
-		private var midPlatformY: Number = 480;
-		/** The Y position that High Platforms will spawn at. */
-		private var highPlatformY: Number = 380;
-		
-		var lastPlatform : Number = lowPlatformY;
+		/** The height that Low Platforms will spawn with. */
+		private var lowPlatformHeight: Number = 120;
+		/** The Y height that Middle Platforms will spawn with. */
+		private var midPlatformHeight: Number = 360;
+		/** The Y height that High Platforms will spawn with. */
+		private var highPlatformHeight: Number = 600;
 
 		/** An Array for all the platform objects */
 		private var platforms = new Array();
 		
-				public var score:Number = 0;
+		public var score:Number = 0;
 
 		/** An Array for all the Enemy Objects */
 		private var enemies = new Array();
@@ -55,13 +53,12 @@
 			if (shouldSwitchToTitle) return new TitleScene();
 			handleNextScene();
 
+			calcCameraOffSet();
+			moveCamera();
+			
 			updatePlatforms();
 			updateEnemies();
 			updateScore();
-			
-			calcCameraOffSet();
-			
-			moveCamera();
 
 			doCollisionDetection();
 			
@@ -76,12 +73,11 @@
 		override public function onBegin(): void {
 			trace("Enter PlayScene. Press 1 to goto title scene. Press 3 to goto lose scene.");
 			var startingPlatform = new Platform();
-			startingPlatform.x = 0;
-			startingPlatform.y = lowPlatformY;
-			startingPlatform.width = 1280;
+			startingPlatform.x = 800;
+			startingPlatform.y = 560;
+			startingPlatform.width = 1000;
 			this.addChild(startingPlatform);
 			platforms.push(startingPlatform);
-			lastPlatform = lowPlatformY;
 
 		}
 
@@ -128,26 +124,23 @@
 		private function spawnNewPlatform(): void {
 			var mostCurrentPlatform = platforms[platforms.length - 1];
 			var newPlatform = new Platform();
-			var newLength = (Math.random() * 13 + 2) * 50;
+			var newLength = (Math.random() * 8 + 2) * 50;
 			newPlatform.width = newLength;
 
-			if (lastPlatform == highPlatformY || lastPlatform == lowPlatformY) {
-				newPlatform.y = midPlatformY +cameraOffSetY;
-				newPlatform.height = 240;
-				lastPlatform = midPlatformY;
-			} else if (lastPlatform == midPlatformY) {
+			if (mostCurrentPlatform.height == highPlatformHeight || mostCurrentPlatform.height == lowPlatformHeight) {
+				newPlatform.y = mostCurrentPlatform.y ;
+				newPlatform.height = midPlatformHeight;
+			} else if (mostCurrentPlatform.height == midPlatformHeight) {
 				var rand = Math.random();
 				if (rand > .5) {
-					newPlatform.y = highPlatformY +cameraOffSetY;
-					newPlatform.height = 360;
-					lastPlatform = highPlatformY;
+					newPlatform.y = mostCurrentPlatform.y /* -cameraOffSetY/30 */;
+					newPlatform.height = highPlatformHeight;
 				} else {
-					newPlatform.y = lowPlatformY +cameraOffSetY;
-					lastPlatform = lowPlatformY;
+					newPlatform.y = mostCurrentPlatform.y /* -cameraOffSetY/30 */;
 				}
 			}
 			//trace(cameraOffSetY);
-			//trace(newPlatform.y - cameraOffSetY/50);
+			//trace(newPlatform.y);
 			newPlatform.x = mostCurrentPlatform.x + mostCurrentPlatform.width;
 			this.addChild(newPlatform);
 			platforms.push(newPlatform);
@@ -190,6 +183,7 @@
 				platforms[i].y += cameraOffSetY/30;
 			}
 		}
+		
 		/**
 		 * This calculates how far the player is from the middle of the screen.
 		 * The distance from the middle of the screen is the cameraOffSet.
@@ -199,14 +193,11 @@
 			//trace(cameraOffSetY);
 		}
 
-
 		/** 
 		 * updates all the enemies in the enemies collection
 		 */
 		private function updateEnemies(): void {
 			msTimeUntilEnemySpawn -= Time.dt;
-
-
 
 			if (msTimeUntilEnemySpawn <= 0) {
 				var newEnemy = Enemy.spawnEnemy(stage, platforms[platforms.length - 1]);
@@ -222,7 +213,6 @@
 		}
 
 	}
-
 
 }
 
