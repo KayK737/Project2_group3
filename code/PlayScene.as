@@ -168,7 +168,7 @@
 					player.applyFix(fix);
 				}
 			} // ends for loop
-			if (player.y > 750 || player.x < -30) {
+			if (player.y > 750 && player.y > platforms[1].y || player.x < -30) {
 				shouldSwitchToLose = true;
 			}
 
