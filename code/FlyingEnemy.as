@@ -24,6 +24,18 @@
 			
 			collider.calcEdges(x, y);
 		}
+		
+		/**
+		 * Overrides base class update function
+		 * Updates the state of the enemy
+		 */
+		public override function update(): void {
+			
+			this.collider.calcEdges(x, y);
+			
+			
+
+		}
 
 		/**
 		 * Overrides Parent Enemy Class getType funtion

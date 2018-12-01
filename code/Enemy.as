@@ -15,6 +15,14 @@
 		public function getType(): String {
 			return "base";
 		}
+		
+		/**
+		 * Overridden by child classes
+		 * updates the enemy
+		 */
+		public function update(): void {
+			
+		}
 
 		/**
 		 * STATIC function to determine which type of enemy to spawn.

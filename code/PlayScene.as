@@ -233,6 +233,7 @@
 
 			for (var i = enemies.length - 1; i >= 0; i--) {
 				var enemy = enemies[i];
+				enemy.update();
 			}
 
 		}
