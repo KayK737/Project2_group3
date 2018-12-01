@@ -8,7 +8,6 @@
 	 * Child of Enemy
 	 */
 	public class SpikyEnemy extends Enemy {
-
 		/**
 		 * The Constructor sets the enemies position based on game elements
 		 * @param gameStage the stage to which the SpikyEnemy will be added
@@ -16,9 +15,27 @@
 		 */
 		public function SpikyEnemy(gameStage: Stage, platform: Platform) {
 
-			this.x = gameStage.stageWidth - 100;
-			this.y = platform.y - this.height / 2;
+			collider = new AABB(width / 2, height / 2);
+
+
+
+			this.x = platform.x;
+			this.y = platform.y - platform.height / 2 - this.height / 2;
+
+			collider.calcEdges(x, y);
 			// constructor code
+		}
+
+		/**
+		 * Overrides base class update function
+		 * Updates the state of the enemy
+		 */
+		public override function update(): void {
+
+			this.collider.calcEdges(x, y);
+
+
+
 		}
 
 		/**
@@ -28,6 +45,8 @@
 		public override function getType(): String {
 			return "Spiky";
 		}
+
+
 
 	}
 
