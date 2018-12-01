@@ -24,8 +24,8 @@
 			if (shouldSwitchToTitle) return new TitleScene();
 			if (shouldSwitchToPlay) return new PlayScene();
 			var lose: LoseGame = new LoseGame;
-			lose.play();
-			scoreFinal.text = "Final Score: " + finalScore;
+			//lose.play();
+			//scoreFinal.text = "Final Score: " + finalScore;
 			return null;
 		}
 
@@ -35,6 +35,11 @@
 		override public function onBegin(): void {
 			bttnReset.x = 640
 			bttnReset.y = 360
+			var lose: LoseGame = new LoseGame;
+			lose.play();
+			lose.play();
+			lose.play();
+			lose.play();
 			bttnReset.addEventListener(MouseEvent.MOUSE_DOWN, handleClickReset);
 			//bttnReset.addEventListener(MouseEvent.MOUSE_DOWN, handleClickTitle);
 			
