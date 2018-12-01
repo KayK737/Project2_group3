@@ -46,11 +46,18 @@
 			var rand = Math.random();
 
 			if (rand < 0.33) {
-				return new FlyingEnemy(gameStage);
+				var sOne: SpawnOne = new SpawnOne();
+				sOne.play();
+				return new FlyingEnemy(gameStage);				
 			} else if (rand < .66) {
+				var sTwo: SpawnTwo = new SpawnTwo();
+				sTwo.play();
 				return new JumpingEnemy(gameStage, platform);
 			} else {
+				var sThr: SpawnThree = new SpawnThree();
+				sThr.play();
 				return new SpikyEnemy(gameStage, platform);
+				
 			}
 		}
 
