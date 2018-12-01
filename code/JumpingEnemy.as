@@ -6,7 +6,8 @@
 	 */
 	public class JumpingEnemy extends Enemy {
 
-
+			/** variable needed to detect aabb collison */
+		public var collider: AABB;
 
 		/**
 		 * The Constructor sets the enemies position based on game elements
@@ -15,9 +16,13 @@
 		 */
 		public function JumpingEnemy(gameStage: Stage, platform: Platform) {
 			// constructor code
-
+			collider = new AABB(width/2, height/2);
+			
+			
+			
 			this.x = gameStage.stageWidth - 100;
 			this.y = platform.y - this.height / 2;
+			collider.calcEdges(x, y);
 		}
 
 		/**

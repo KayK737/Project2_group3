@@ -20,12 +20,12 @@
 		private var midPlatformHeight: Number = 360;
 		/** The Y height that High Platforms will spawn with. */
 		private var highPlatformHeight: Number = 600;
+		/** Buff that gives the player extra points when gathered. */
 		private var buffSpike: Boolean = false;
-		/** Keeps track of if it should switch to a lose scene. */
-		/** Keeps track of if it should switch to a lose scene. */
+		/** Buff that gives the player the ability to shoot. */
 		private var buffFlame: Boolean = false;
-		/** Keeps track of if it should switch to a lose scene. */
-		private var buffWing: Boolean = false;
+		/** Buff that gives the player the ability to double jump*/
+		private var buffLeg: Boolean = false;
 
 		/** An Array for all the platform objects */
 		private var platforms = new Array();
@@ -159,7 +159,6 @@
 			score = score + 1;
 			textScore.text = "Score: " + score;
 			LoseScene.finalScore = score;
-			//trace(score);
 		}
 		
 
@@ -175,10 +174,16 @@
 					// apply the fix:
 					player.applyFix(fix);
 				}
-			} // ends for loop
+			}
 			if (player.y > 750 && player.y > platforms[1].y || player.x < -30) {
 				shouldSwitchToLose = true;
 			}
+			for (var t: int = 0; t < enemies.length; t++){
+				if(player.collider.checkOverlap(enemies[t].collider)){
+					shouldSwitchToLose = true;
+				}
+			} // ends for loop
+			
 
 		} // ends doCollisionDetection 
 		
