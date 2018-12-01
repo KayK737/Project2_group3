@@ -89,7 +89,8 @@
 		private function handleJumping(): void {
 			if (KeyboardInput.OnKeyDown(Keyboard.SPACE) && velocity.y <= 600) {
 				if (isGrounded == true) {
-					velocity.y = -jumpVelocity;
+					var jumpMultiplier = this.powerup == "Jump" ? 1.5 : 1;
+					velocity.y = -jumpVelocity * jumpMultiplier;
 					isGrounded = false;
 					isJumping = true;
 					jumpCount += 1;

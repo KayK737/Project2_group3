@@ -12,6 +12,7 @@
 		public override function getType(): String {
 			return "Jump"
 		}
+		
 	}
 
 }
