@@ -21,8 +21,8 @@
 			x = spawnX;
 			y = spawnY;
 			
-			velocity.x = Math.random() * 600 - 200;
-			velocity.y = Math.random() * 500 - 350;
+			velocity.x = Math.random() * 100 - 200;
+			velocity.y = Math.random() * 400 - 350;
 			
 			rotation = Math.random() * 360;
 			angularVelocity = Math.random() * 180 - 90;

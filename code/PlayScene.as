@@ -30,11 +30,13 @@
 		/** Lets it be known if the player has a buff active or not*/
 		private var buffTrue:Boolean = false;
 		/** Lets it be known if the player has a buff active or not*/
-		private var shootActive:Boolean = true;
+		private var shootActive:Boolean = false;
+		/** Lets it be known if the player has a buff active or not*/
+		private var spikeActive:Boolean = false;
 		/** particle array for the boom class*/
 		private var particles:Array = new Array();
 		/** particle array for the boom class*/
-		private var particlesmoke:Array = new Array();
+		private var particlespike:Array = new Array();
 		/** particle array for the boom class*/
 		private var particleenemy:Array = new Array();
 
@@ -95,6 +97,12 @@
 			var e:EnemyBoom = new EnemyBoom(mouseX, mouseY);
 				addChild(e);
 				particleenemy.push(e);
+			
+			}
+			if(spikeActive == true){
+			var s:spikeParticle = new spikeParticle(player.x, player.y);
+				addChild(s);
+				particlespike.push(s);
 			}
 			
 			updateParticles();
@@ -333,8 +341,15 @@
 					particles.splice(r, 1);
 				}
 			}
+			for(var s:int = 0; s < particlespike.length; s++){
+				particlespike[s].update();
+				
+				if(particleenemy[s].isDead){
+					removeChild(particles[s]);
+					particles.splice(s, 1);
+				}
 		}
-
+	}
 	}
 }
 }
