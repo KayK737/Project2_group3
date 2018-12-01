@@ -72,6 +72,7 @@
 			updateScore();
 			updateBullets();
 			updateBulletsBad();
+			updateBuffs();
 
 			doCollisionDetection();
 
@@ -181,7 +182,8 @@
 			detectPlayerEnemyCollisions();
 			detectEnemyPlatformCollisions();
 			detectPlayerBulletBadCollisions();
-			detectEnemyBulletCollisions()
+			detectEnemyBulletCollisions();
+			detectPlayerBuffCollisions();
 
 
 			// ends for loop
@@ -218,7 +220,11 @@
 
 					} else //collision where the player is not falling ontop of the enemy
 					{
-						this.shouldSwitchToLose = true;
+						if (player.powerup = "Spikes") {
+							enemy.isDead = true;
+						}
+						else this.shouldSwitchToLose = true;
+						
 					}
 
 				}
@@ -234,17 +240,19 @@
 				}
 			}
 		}
-		
+
 		/** Checks for collisions between the player and buffs */
 		private function detectPlayerBuffCollisions(): void {
 			for (var i: int = 0; i < buffs.length; i++) {
 				var buff = buffs[i]
 				if (player.collider.checkOverlap(buff.collider)) {
-					this.shouldSwitchToLose = true;
+					buff.isDead = true;
+					player.powerup = buff.getType();
+
 				}
 			}
 		}
-		
+
 
 		/** Checks for collisions between the enemies and the bullets */
 		private function detectEnemyBulletCollisions(): void {
@@ -252,7 +260,7 @@
 				for (var j: int = 0; j < enemies.length; j++) {
 					if (enemies[j].collider.checkOverlap(bullets[i].collider)) {
 						enemies[j].isDead = true;
-						spawnBuffs(enemies[j]);
+						
 					}
 				}
 			}
@@ -335,7 +343,8 @@
 					}
 				}
 
-				if (enemy.isDead || enemy.x <= -1000) {
+				if (enemy.isDead || enemy.x <= -1000)  {
+					spawnBuffs(enemies[i]);
 					enemies.splice(i, 1);
 					removeChild(enemy);
 				}
@@ -345,7 +354,8 @@
 
 		/** Is run when the mouse is clicked, spawns bullets from the player */
 		private function handleClick(e: MouseEvent): void {
-			spawnBullet(null, new Point(e.stageX, e.stageY));
+			if (player.powerup == "Flames") spawnBullet(null, new Point(e.stageX, e.stageY));
+
 		}
 
 		/** Spawns a bullet object from a player or from the enemy */
@@ -397,6 +407,17 @@
 			buff.y = e.y;
 
 			buffs.push(buff);
+		}
+		/** 'updates' the buffs. The only thing to update is to remove it if it is dead */
+		private function updateBuffs(): void {
+			for (var i = buffs.length - 1; i >= 0; i--) {
+				var buff = buffs[i];
+				buff.update();
+				if (buff.isDead) {
+					removeChild(buff);
+					buffs.splice(i, 1);
+				}
+			}
 		}
 
 
