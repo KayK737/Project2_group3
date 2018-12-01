@@ -39,6 +39,8 @@
 		private var bulletsBad = new Array();
 		/** An Array for all the bullets from the palyer */
 		private var bullets = new Array();
+		/** An Arra for all buffs. Note, this is only so they move with the camera */
+		private var buffs = new Array();
 
 		/** The amount of time in ms until an enemy should spawn */
 		private var msTimeUntilEnemySpawn = 1; //1 seconds
@@ -68,7 +70,6 @@
 			updatePlatforms();
 			updateEnemies();
 			updateScore();
-			updateBuffs();
 			updateBullets();
 			updateBulletsBad();
 
@@ -214,6 +215,7 @@
 					if (player.velocity.y > 0 && player.x < enemy.x + enemy.width / 2 && player.x > enemy.x - enemy.width / 2) // player is falling on top of the enemy
 					{
 						enemy.isDead = true;
+
 					} else //collision where the player is not falling ontop of the enemy
 					{
 						this.shouldSwitchToLose = true;
@@ -232,14 +234,25 @@
 				}
 			}
 		}
+		
+		/** Checks for collisions between the player and buffs */
+		private function detectPlayerBuffCollisions(): void {
+			for (var i: int = 0; i < buffs.length; i++) {
+				var buff = buffs[i]
+				if (player.collider.checkOverlap(buff.collider)) {
+					this.shouldSwitchToLose = true;
+				}
+			}
+		}
+		
 
 		/** Checks for collisions between the enemies and the bullets */
 		private function detectEnemyBulletCollisions(): void {
 			for (var i: int = 0; i < bullets.length; i++) {
 				for (var j: int = 0; j < enemies.length; j++) {
 					if (enemies[j].collider.checkOverlap(bullets[i].collider)) {
-						trace("Should Die");
 						enemies[j].isDead = true;
+						spawnBuffs(enemies[j]);
 					}
 				}
 			}
@@ -278,6 +291,10 @@
 			for (var bb: int = 0; bb < bulletsBad.length; bb++) {
 				bulletsBad[bb].y += cameraOffSet.y * Time.dt;
 				bulletsBad[bb].x += cameraOffSet.x * Time.dt - (player.velocity.x * Time.dt);
+			}
+			for (var bf: int = 0; bf < buffs.length; bf++) {
+				buffs[bf].y += cameraOffSet.y * Time.dt;
+				buffs[bf].x += cameraOffSet.x * Time.dt - (player.velocity.x * Time.dt);
 			}
 		}
 
@@ -325,24 +342,22 @@
 			}
 
 		}
-		
+
 		/** Is run when the mouse is clicked, spawns bullets from the player */
 		private function handleClick(e: MouseEvent): void {
 			spawnBullet(null, new Point(e.stageX, e.stageY));
 		}
 
 		/** Spawns a bullet object from a player or from the enemy */
-		public function spawnBullet(e: Enemy = null, mousePosition:Point = null): void {
+		public function spawnBullet(e: Enemy = null, mousePosition: Point = null): void {
 			var b: Bullet = new Bullet(player, e, mousePosition);
 			addChild(b);
 			if (e) bulletsBad.push(b);
 			else bullets.push(b);
 		}
-		private function updateBuffs(): void {
-			/*insert here means to determine what enemies were killed this wave and 
-			 * what buff will spawn with it */
 
-		}
+
+		/** Iterates through the bullet collection and calls the bullet's update function */
 		private function updateBullets(): void {
 			for (var i = bullets.length - 1; i >= 0; i--) {
 				var bullet = bullets[i];
@@ -354,6 +369,7 @@
 			}
 		}
 
+		/** Iterates through the bulletBad collection and calls the bullet's update function */
 		private function updateBulletsBad(): void {
 			for (var i = bulletsBad.length - 1; i >= 0; i--) {
 				var bullet = bulletsBad[i];
@@ -364,6 +380,25 @@
 				}
 			}
 		}
+
+		/**
+		 * Spawns a new buff depending on the enemy destroyed
+		 * @param e the enemy destroyed that is dropping the buff
+		 */
+		private function spawnBuffs(e: Enemy): void {
+			var buff;
+			if (e.getType() == "Flying") buff = new BFlames();
+			if (e.getType() == "Jumping") buff = new BLegs();
+			if (e.getType() == "Spiky") buff = new BSpikes();
+
+			this.addChild(buff);
+
+			buff.x = e.x;
+			buff.y = e.y;
+
+			buffs.push(buff);
+		}
+
 
 	}
 

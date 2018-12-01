@@ -2,14 +2,14 @@
 	
 	import flash.display.MovieClip;
 	
-	
-	public class BFlames extends MovieClip {
-		
-		
-		public function BFlames() {
-			/*where the buff will spawn when flying enemy dies */
-			this.x = 500;
-			this.y = 100;
+	/** The buff which gives the player the ability to shoot */
+	public class BFlames extends Buff {
+		/** 
+		 *Function overridden from the parent class which returns the type of buff it is
+		 *@return A string which describes the buff
+		 */
+		public override function getType():String {
+			return "Flames"
 		}
 	}
 	
