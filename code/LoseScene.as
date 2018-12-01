@@ -11,6 +11,7 @@
 		/** Keeps track of if it should switch to a title scene. */
 		private var shouldSwitchToTitle: Boolean = false;
 		
+		private var endSound:Boolean = true;
 		public static var finalScore: Number;
 
 		/**
@@ -23,8 +24,8 @@
 
 			if (shouldSwitchToTitle) return new TitleScene();
 			if (shouldSwitchToPlay) return new PlayScene();
-			var lose: LoseGame = new LoseGame;
-			lose.play();
+			
+			
 			scoreFinal.text = "Final Score: " + finalScore;
 			return null;
 		}

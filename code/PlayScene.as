@@ -27,6 +27,14 @@
 		private var buffFlame: Boolean = false;
 		/** Buff that gives the player the ability to double jump*/
 		private var buffLeg: Boolean = false;
+		/** Lets it be known if the player has a buff active or not*/
+		private var buffTrue:Boolean = false;
+		/** particle array for the boom class*/
+		private var particles:Array = new Array();
+		/** particle array for the boom class*/
+		private var particlesmoke:Array = new Array();
+		/** particle array for the boom class*/
+		private var particleenemy:Array = new Array();
 
 		/** An Array for all the platform objects */
 		private var platforms = new Array();
@@ -56,7 +64,11 @@
 		 */
 		override public function update(keyboard: KeyboardInput): GameScene {
 			player.update();
-			if (shouldSwitchToLose) return new LoseScene();
+			if (shouldSwitchToLose) {
+				var lose: LoseGame = new LoseGame;
+				lose.play();
+				return new LoseScene();
+			}
 			if (shouldSwitchToTitle) return new TitleScene();
 			handleNextScene();
 
@@ -72,6 +84,13 @@
 
 			calcCameraOffSet();
 			moveCamera();
+			if(buffTrue = true){
+			var p:ParticleBoom = new ParticleBoom(player.x, player.y);
+			addChild(p);
+			particles.push(p);
+			}
+			
+			updateParticles();
 
 
 
@@ -205,6 +224,9 @@
 				if (player.collider.checkOverlap(enemy.collider)) {
 					if (player.velocity.y > 0 && player.x < enemy.x + enemy.width/2 && player.x > enemy.x - enemy.width/2) // player is falling on top of the enemy
 					{
+						var e:ParticleBoom = new ParticleBoom(enemy.x, enemy.y);
+						addChild(e);
+						particles.push(e);
 						enemy.isDead = true;
 					}
 					else //collision where the player is not falling ontop of the enemy
@@ -290,6 +312,16 @@
 		private function updateBullets(): void {
 
 
+		}
+		private function updateParticles(): void {
+			for(var i:int = 0; i < particles.length; i++){
+				particles[i].update();
+				
+				if(particles[i].isDead){
+					removeChild(particles[i]);
+					particles.splice(i, 1);
+				}
+			}
 		}
 
 	}
