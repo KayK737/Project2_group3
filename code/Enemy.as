@@ -31,7 +31,7 @@
 		 * Overridden by child classes
 		 * updates the enemy
 		 */
-		public function update(): void {
+		public function update(player:Player): void {
 
 		}
 

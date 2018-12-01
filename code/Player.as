@@ -33,6 +33,8 @@
 		private var jumpVelocity: Number = 600;
 		/** The player's AABB for collision detection. */
 		public var collider: AABB;
+		/** String value which describes which powerup the player has */;
+		public var powerup:String = "none";
 		
 		
 		public function Player() {
