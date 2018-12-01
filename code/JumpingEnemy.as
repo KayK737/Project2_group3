@@ -38,8 +38,7 @@
 		 * Overrides base class update function
 		 * Updates the state of the enemy
 		 */
-		public override function update(): void {
-			trace(msTimeUntilJump);
+		public override function update(player:Player): void {
 
 			msTimeUntilJump -= Time.dt
 			if (msTimeUntilJump <= 0) {
