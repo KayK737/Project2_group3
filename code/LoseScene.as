@@ -23,6 +23,8 @@
 
 			if (shouldSwitchToTitle) return new TitleScene();
 			if (shouldSwitchToPlay) return new PlayScene();
+			var lose: LoseGame = new LoseGame;
+			lose.play();
 			scoreFinal.text = "Final Score: " + finalScore;
 			return null;
 		}

@@ -91,6 +91,8 @@
 					isGrounded = false;
 					isJumping = true;
 					jumpCount += 1;
+					var jump: PlayerJump = new PlayerJump;
+					jump.play();
 				} else {
 					if (jumpCount <= 1) {
 						velocity.y = -jumpVelocity;
