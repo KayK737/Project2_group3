@@ -14,7 +14,7 @@
 		/** Holds the curret gravity of the player. */
 		private var gravity: Point = new Point(0, 2000);
 		/** The X and Y velocity of the player. */
-		private var velocity: Point = new Point(0, 0);
+		public var velocity: Point = new Point(0, 0);
 		/** The maximum horizontal Speed the player can reach. */
 		private var maxSpeed: Number = 300;
 		/** The amount of times the player has jumped since touching the ground (should max at 2). */
@@ -123,7 +123,8 @@
 			if (velocity.x < -maxSpeed) velocity.x = -maxSpeed;
 
 			// apply velocity to position:
-			x += velocity.x * Time.dt;
+			if (x < stage.stageWidth / 2) x += velocity.x * Time.dt;
+
 			y += velocity.y * Time.dt;
 		}//end doPhysics
 		

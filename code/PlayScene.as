@@ -13,7 +13,8 @@
 		private var shouldSwitchToTitle: Boolean = false;
 		/** Keeps track of if it should switch to a lose scene. */
 		private var shouldSwitchToLose: Boolean = false;
-		private var cameraOffSetY: Number = 0;
+		/** Keeps track of the camera offset */
+		private var cameraOffSet: Point = new Point(0, 0);
 		/** The height that Low Platforms will spawn with. */
 		private var lowPlatformHeight: Number = 120;
 		/** The Y height that Middle Platforms will spawn with. */
@@ -29,8 +30,8 @@
 
 		/** An Array for all the platform objects */
 		private var platforms = new Array();
-		
-		public var score:Number = 0;
+
+		public var score: Number = 0;
 
 		/** An Array for all the Enemy Objects */
 		private var enemies = new Array();
@@ -42,9 +43,9 @@
 		public function PlayScene() {
 			player = new Player();
 			addChild(player);
-			player.x = 275;
+			player.x = 640;
 			player.y = 360;
-			
+
 		}
 
 		/**
@@ -61,7 +62,7 @@
 
 			calcCameraOffSet();
 			moveCamera();
-			
+
 			updatePlatforms();
 			updateEnemies();
 			updateScore();
@@ -69,8 +70,8 @@
 			updateBullets();
 
 			doCollisionDetection();
-			
-			
+
+
 
 			return null;
 		}
@@ -83,7 +84,7 @@
 			var startingPlatform = new Platform();
 			startingPlatform.x = 800;
 			startingPlatform.y = 560;
-			startingPlatform.width = 1000;
+			startingPlatform.width = 1280;
 			this.addChild(startingPlatform);
 			platforms.push(startingPlatform);
 
@@ -136,15 +137,15 @@
 			newPlatform.width = newLength;
 
 			if (mostCurrentPlatform.height == highPlatformHeight || mostCurrentPlatform.height == lowPlatformHeight) {
-				newPlatform.y = mostCurrentPlatform.y ;
+				newPlatform.y = mostCurrentPlatform.y;
 				newPlatform.height = midPlatformHeight;
 			} else if (mostCurrentPlatform.height == midPlatformHeight) {
 				var rand = Math.random();
 				if (rand > .5) {
-					newPlatform.y = mostCurrentPlatform.y /* -cameraOffSetY/30 */;
+					newPlatform.y = mostCurrentPlatform.y /* -cameraOffSetY/30 */ ;
 					newPlatform.height = highPlatformHeight;
 				} else {
-					newPlatform.y = mostCurrentPlatform.y /* -cameraOffSetY/30 */;
+					newPlatform.y = mostCurrentPlatform.y /* -cameraOffSetY/30 */ ;
 				}
 			}
 			//trace(cameraOffSetY);
@@ -155,12 +156,12 @@
 
 
 		}
-		private function updateScore():void {
+		private function updateScore(): void {
 			score = score + 1;
 			textScore.text = "Score: " + score;
 			LoseScene.finalScore = score;
 		}
-		
+
 
 		/**
 		 * Checks for collisions and readjusts the plays position when needed.
@@ -175,35 +176,46 @@
 					player.applyFix(fix);
 				}
 			}
-			if (player.y > 750 && player.y > platforms[1].y || player.x < -30) {
+			if (player.y > 750 || player.x < -30) {
 				shouldSwitchToLose = true;
 			}
-			for (var t: int = 0; t < enemies.length; t++){
-				if(player.collider.checkOverlap(enemies[t].collider)){
+			for (var t: int = 0; t < enemies.length; t++) {
+				if (player.collider.checkOverlap(enemies[t].collider)) {
 					shouldSwitchToLose = true;
 				}
 			} // ends for loop
-			
+
 
 		} // ends doCollisionDetection 
-		
+
 		/**
 		 * This moves everything in the scene to make create a camera moving effect.
 		 * Everything in the game world that is not the player goes in here.
 		 */
-		private function moveCamera(): void{
-			for(var i: int = 0; i < platforms.length; i++){
-				platforms[i].y += cameraOffSetY/30;
+		private function moveCamera(): void {
+
+			for (var i: int = 0; i < platforms.length; i++) {
+				platforms[i].y += cameraOffSet.y * Time.dt;
+
+				platforms[i].x += cameraOffSet.x * Time.dt  - (player.velocity.x * Time.dt);
+			}
+			for (var e: int = 0; e < enemies.length; e++) {
+				enemies[e].y += cameraOffSet.y * Time.dt;
+				enemies[e].x += cameraOffSet.x * Time.dt  - (player.velocity.x * Time.dt);
 			}
 		}
-		
+
 		/**
 		 * This calculates how far the player is from the middle of the screen.
 		 * The distance from the middle of the screen is the cameraOffSet.
-		 */ 
-		private function calcCameraOffSet():void{
-			cameraOffSetY = this.stage.stageHeight/2 - player.y;
+		 */
+		private function calcCameraOffSet(): void {
+			cameraOffSet.y = this.stage.stageHeight / 2 - player.y;
 			//trace(cameraOffSetY);
+			if (player.x >= this.stage.stageWidth / 2 ) {
+				cameraOffSet.x = this.stage.stageWidth / 2 - player.x;
+			}
+
 		}
 
 		/** 
@@ -227,14 +239,13 @@
 		private function updateBuffs(): void {
 			/*insert here means to determine what enemies were killed this wave and 
 			 * what buff will spawn with it */
-			
+
 		}
 		private function updateBullets(): void {
-			
-			
+
+
 		}
 
 	}
 
 }
-
