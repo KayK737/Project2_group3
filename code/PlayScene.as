@@ -60,8 +60,6 @@
 			if (shouldSwitchToTitle) return new TitleScene();
 			handleNextScene();
 
-			calcCameraOffSet();
-			moveCamera();
 
 			updatePlatforms();
 			updateEnemies();
@@ -70,6 +68,10 @@
 			updateBullets();
 
 			doCollisionDetection();
+
+
+			calcCameraOffSet();
+			moveCamera();
 
 
 
@@ -164,9 +166,21 @@
 
 
 		/**
-		 * Checks for collisions and readjusts the plays position when needed.
+		 * Checks for collisions between game objects.
 		 */
 		private function doCollisionDetection(): void {
+			detectPlayerPlatformCollision();
+			detectPlayerOOB();
+			detectPlayerEnemyCollisions();
+			detectEnemyPlatformCollisions();
+
+
+			// ends for loop
+
+
+		} // ends doCollisionDetection 
+		/** Checks for collisions between the player and platforms */
+		private function detectPlayerPlatformCollision(): void {
 
 			for (var i: int = 0; i < platforms.length; i++) {
 				if (player.collider.checkOverlap(platforms[i].collider)) { // if overlapping
@@ -176,17 +190,34 @@
 					player.applyFix(fix);
 				}
 			}
+		}
+		/** Checks for collisions between the player and the outer boundaries */
+		private function detectPlayerOOB(): void {
 			if (player.y > 750 || player.x < -30) {
 				shouldSwitchToLose = true;
 			}
-			for (var t: int = 0; t < enemies.length; t++) {
-				if (player.collider.checkOverlap(enemies[t].collider)) {
+		}
+
+		/** Checks for collisions between the player and enemies */
+		private function detectPlayerEnemyCollisions(): void {
+			for (var i: int = 0; i < enemies.length; i++) {
+				if (player.collider.checkOverlap(enemies[i].collider)) {
 					shouldSwitchToLose = true;
 				}
-			} // ends for loop
+			}
+		}
 
-
-		} // ends doCollisionDetection 
+		/** Checks for collisions between the enemies and the platforms */
+		private function detectEnemyPlatformCollisions(): void {
+			for (var i: int = 0; i < platforms.length; i++) {
+				for (var j: int = 0; j < enemies.length; j++) {
+					if (enemies[j].collider.checkOverlap(platforms[i].collider)) {
+						var fix: Point = enemies[j].collider.findOverlapFix(platforms[i].collider);
+						enemies[j].applyFix(fix);
+					}
+				}
+			}
+		}
 
 		/**
 		 * This moves everything in the scene to make create a camera moving effect.
@@ -197,11 +228,11 @@
 			for (var i: int = 0; i < platforms.length; i++) {
 				platforms[i].y += cameraOffSet.y * Time.dt;
 
-				platforms[i].x += cameraOffSet.x * Time.dt  - (player.velocity.x * Time.dt);
+				platforms[i].x += cameraOffSet.x * Time.dt - (player.velocity.x * Time.dt);
 			}
 			for (var e: int = 0; e < enemies.length; e++) {
 				enemies[e].y += cameraOffSet.y * Time.dt;
-				enemies[e].x += cameraOffSet.x * Time.dt  - (player.velocity.x * Time.dt);
+				enemies[e].x += cameraOffSet.x * Time.dt - (player.velocity.x * Time.dt);
 			}
 		}
 
@@ -212,9 +243,9 @@
 		private function calcCameraOffSet(): void {
 			cameraOffSet.y = this.stage.stageHeight / 2 - player.y;
 			//trace(cameraOffSetY);
-			if (player.x >= this.stage.stageWidth / 2 ) {
+			if (player.x >= this.stage.stageWidth / 2) {
 				cameraOffSet.x = this.stage.stageWidth / 2 - player.x;
-			}
+			} else cameraOffSet.x = 0;
 
 		}
 
@@ -224,7 +255,7 @@
 		private function updateEnemies(): void {
 			msTimeUntilEnemySpawn -= Time.dt;
 
-			if (msTimeUntilEnemySpawn <= 0) {
+			if (msTimeUntilEnemySpawn <= 0 && platforms.length > 1) {
 				var newEnemy = Enemy.spawnEnemy(stage, platforms[platforms.length - 1]);
 				enemies.push(newEnemy);
 				this.addChild(newEnemy);

@@ -8,8 +8,6 @@
 	 * Child of Enemy
 	 */
 	public class SpikyEnemy extends Enemy {
-		/** variable needed to detect aabb collison */
-		public var collider: AABB;
 		/**
 		 * The Constructor sets the enemies position based on game elements
 		 * @param gameStage the stage to which the SpikyEnemy will be added
@@ -21,8 +19,8 @@
 
 
 
-			this.x = gameStage.stageWidth - 100;
-			this.y = platform.y - this.height / 2;
+			this.x = platform.x;
+			this.y = platform.y - platform.height / 2 - this.height / 2;
 
 			collider.calcEdges(x, y);
 			// constructor code
@@ -33,10 +31,10 @@
 		 * Updates the state of the enemy
 		 */
 		public override function update(): void {
-			
+
 			this.collider.calcEdges(x, y);
-			
-			
+
+
 
 		}
 

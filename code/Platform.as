@@ -4,9 +4,6 @@
 	
 	/** The platform class is the main object the player can stand on */
 	public class Platform extends MovieClip {
-		
-		/** The amount that the platform moves per second in the horizontal direction */
-		//private var horizontalVelocity = -200;
 		/** The platform's AABB for collision detection. */
 		public var collider: AABB;
 		

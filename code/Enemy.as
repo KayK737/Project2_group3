@@ -2,11 +2,17 @@
 
 	import flash.display.MovieClip;
 	import flash.display.Stage;
+	import flash.geom.Point;
 
 	/**
 	 * The base enemy class
 	 */
 	public class Enemy extends MovieClip {
+
+		public var velocity: Point = new Point(0, 0);
+
+		/** variable needed to detect aabb collison */
+		public var collider: AABB;
 
 		/**
 		 * Overriden by child classes
@@ -15,13 +21,22 @@
 		public function getType(): String {
 			return "base";
 		}
-		
+
 		/**
 		 * Overridden by child classes
 		 * updates the enemy
 		 */
 		public function update(): void {
-			
+
+		}
+
+		/** 
+		 * Overriden by child classes
+		 * Since the different enemies will have different behavior, this function is an abstraction of that
+		 * may not use?
+		 */
+		public function doBehavior(): void {
+
 		}
 
 		/**
@@ -41,6 +56,22 @@
 			} else {
 				return new SpikyEnemy(gameStage, platform);
 			}
+		}
+
+		/** 
+		 * This moves the enemy out of a collision zone when they are colliding with an object.
+		 * @param fix The adjustment to the enemy's x and y position.
+		 */
+		public function applyFix(fix: Point): void {
+			if (fix.x != 0) {
+				x += fix.x;
+				velocity.x = 0;
+			}
+			if (fix.y != 0) {
+				y += fix.y;
+				velocity.y = 0;
+			}
+			collider.calcEdges(x, y);
 		}
 	}
 
