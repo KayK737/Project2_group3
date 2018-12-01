@@ -201,8 +201,17 @@
 		/** Checks for collisions between the player and enemies */
 		private function detectPlayerEnemyCollisions(): void {
 			for (var i: int = 0; i < enemies.length; i++) {
-				if (player.collider.checkOverlap(enemies[i].collider)) {
-					shouldSwitchToLose = true;
+				var enemy = enemies[i]
+				if (player.collider.checkOverlap(enemy.collider)) {
+					if (player.velocity.y > 0 && player.x < enemy.x + enemy.width/2 && player.x > enemy.x - enemy.width/2) // player is falling on top of the enemy
+					{
+						enemy.isDead = true;
+					}
+					else //collision where the player is not falling ontop of the enemy
+					{
+						this.shouldSwitchToLose = true;
+					}
+				
 				}
 			}
 		}
@@ -265,6 +274,11 @@
 			for (var i = enemies.length - 1; i >= 0; i--) {
 				var enemy = enemies[i];
 				enemy.update();
+				
+				if (enemy.isDead) {
+					enemies.splice(i, 1);
+					removeChild(enemy);
+				}
 			}
 
 		}
