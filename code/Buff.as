@@ -1,12 +1,7 @@
 ﻿package code {
 	import flash.display.MovieClip;
-
+    /** abstract class which is inherited by the other buffs */
 	public class Buff extends MovieClip {
-
-		public function Buff() {
-			// constructor code
-		}
-
 
 		/** 
 		 *Function overrided by child classes which returns the type of buff it is
