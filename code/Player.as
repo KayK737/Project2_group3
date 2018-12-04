@@ -57,7 +57,7 @@
 			
 			isGrounded = false;
 			
-			//trace(y);
+			//trace();
 			
 			//detectGround();
 		}
@@ -108,7 +108,7 @@
 				isJumping = false;
 				gravity.y = baseGravity.y;
 			}
-			if (velocity.y > 0) isJumping = false;
+			//if (velocity.y > 0) isJumping = false;
 		}// end handleJumping
 		
 		/**
@@ -132,7 +132,8 @@
 			
 			if(velocity.y > 900)velocity.y = 900;
 			
-			//trace(velocity.y);
+			trace(velocity.x);
+			//trace(x);
 
 			y += velocity.y * Time.dt;
 		}//end doPhysics

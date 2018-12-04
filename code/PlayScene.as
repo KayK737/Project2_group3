@@ -68,6 +68,11 @@
 		 * @return defalt returns null but can return a new GameScene
 		 */
 		override public function update(keyboard: KeyboardInput): GameScene {
+			
+			/** calculates the camera offset */
+			calcCameraOffSet();
+			/** moves the camera */
+			moveCamera();
 			/** updates player */
 			player.update();
 			/** goes to lose screen */
@@ -92,13 +97,10 @@
 			updateBuffs();
 			/** updates particles*/
 			updateParticles();
+
+			
 			/** detects collision */
 			doCollisionDetection();
-
-			/** calculates the camera offset */
-			calcCameraOffSet();
-			/** moves the camera */
-			moveCamera();
 
 	
 
