@@ -244,7 +244,10 @@
 					var fix: Point = player.collider.findOverlapFix(platforms[i].collider);
 					// apply the fix:
 					player.applyFix(fix);
+					return
 				}
+				//trace("no hit");
+				//player.x = 640;
 			}
 		}
 		/** Checks for collisions between the player and the outer boundaries */

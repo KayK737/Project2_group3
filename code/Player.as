@@ -132,7 +132,7 @@
 			
 			if(velocity.y > 900)velocity.y = 900;
 			
-			trace(velocity.x);
+			//trace(velocity.x);
 			//trace(x);
 
 			y += velocity.y * Time.dt;
@@ -161,6 +161,7 @@
 			if (fix.x != 0) {
 				x += fix.x;
 				velocity.x = 0;
+				//x = 640;
 			}
 			if (fix.y != 0) {
 				y += fix.y;
