@@ -10,7 +10,7 @@
 		public var collider: AABB;
 		
 		/** speed of bullets */
-		private const SPEED:Number = 240;
+		private const SPEED:Number = 500;
 		/** The x-velocity */
 		private var velocityX:Number = 0;
 		/** The y-velocity in px/s. */
@@ -19,7 +19,8 @@
 		public var isDead:Boolean = false;
 		/** radius of bullets */
 		public var radius:Number = 3;
-		public var isBig = false;
+		
+		private var timeAlive = 2;
 
 		
 		public function Bullet(p:Player, e:Enemy = null, mousePosition:Point = null) {
@@ -68,6 +69,9 @@
 			
 			x += velocityX * Time.dt;
 			y += velocityY * Time.dt;
+			
+			timeAlive -= Time.dt;
+			if (timeAlive <= 0) this.isDead;
 			
 			collider.calcEdges(x, y);
 			

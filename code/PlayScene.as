@@ -99,6 +99,8 @@
 			calcCameraOffSet();
 			/** moves the camera */
 			moveCamera();
+			
+			setChildIndex(player, this.numChildren -1); //ensures that the player is on the topmost layer
 
 	
 
@@ -190,7 +192,7 @@
 		*function to update the score system and ensure the final score is correct
 		*/
 		private function updateScore(): void {
-			score = score + 1;
+			
 			textScore.text = "Score: " + score;
 			LoseScene.finalScore = score;
 		}
@@ -227,6 +229,8 @@
 			detectPlayerBulletBadCollisions();
 			detectEnemyBulletCollisions();
 			detectPlayerBuffCollisions();
+			detectBulletBadPlatformCollision();
+			detectBulletPlatformCollision();
 
 
 			// ends for loop
@@ -299,11 +303,11 @@
 
 		/** Checks for collisions between the enemies and the bullets */
 		private function detectEnemyBulletCollisions(): void {
-			for (var i: int = 0; i < bullets.length; i++) {
+			for (var i: int = bullets.length -1; i >= 0; i--) {
 				for (var j: int = 0; j < enemies.length; j++) {
 					if (enemies[j].collider.checkOverlap(bullets[i].collider)) {
 						enemies[j].isDead = true;
-						
+						bullets[i].isDead = true;
 					}
 				}
 			}
@@ -316,6 +320,28 @@
 					if (enemies[j].collider.checkOverlap(platforms[i].collider)) {
 						var fix: Point = enemies[j].collider.findOverlapFix(platforms[i].collider);
 						enemies[j].applyFix(fix);
+					}
+				}
+			}
+		}
+		
+		/** Checks for collisions between the bad bullets and the platforms */
+		private function detectBulletBadPlatformCollision(): void {
+			for (var i: int = bulletsBad.length - 1; i >= 0; i--) {
+				for (var j: int = 0; j < platforms.length; j++) {
+					if (bulletsBad[i].collider.checkOverlap(platforms[j].collider)) {
+						bulletsBad[i].isDead = true;
+					}
+				}
+			}
+		}
+		
+		/** Checks for collisions between the bad bullets and the platforms */
+		private function detectBulletPlatformCollision(): void {
+			for (var i: int = bullets.length - 1; i >= 0; i--) {
+				for (var j: int = 0; j < platforms.length; j++) {
+					if (bullets[i].collider.checkOverlap(platforms[j].collider)) {
+						bullets[i].isDead = true;
 					}
 				}
 			}
@@ -387,6 +413,7 @@
 				}
 
 				if (enemy.isDead || enemy.x <= -1000)  {
+					score += 50;
 					spawnBuffs(enemies[i]);
 					enemies.splice(i, 1);
 					removeChild(enemy);
