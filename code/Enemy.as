@@ -44,9 +44,9 @@
 		 */
 		static function spawnEnemy(gameStage: Stage, platform: Platform): Enemy {
 			var rand = Math.random();
-
+			var spawn: EnemySpawn = new EnemySpawn;
 			if (rand < 0.33) {
-				var spawn: EnemySpawn = new EnemySpawn;
+				
 				spawn.play();
 				return new FlyingEnemy(gameStage);
 			} else if (rand < .66) {			

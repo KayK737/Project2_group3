@@ -72,7 +72,7 @@
 			if (shouldSwitchToLose) return new LoseScene();
 			if (shouldSwitchToTitle) return new TitleScene();
 			handleNextScene();
-			//spawnParticles();
+			spawnParticles();
 
 			updatePlatforms();
 			updateEnemies();
@@ -80,7 +80,7 @@
 			updateBullets();
 			updateBulletsBad();
 			updateBuffs();
-			//updateParticles();
+			updateParticles();
 
 			doCollisionDetection();
 
@@ -167,35 +167,37 @@
 					newPlatform.y = mostCurrentPlatform.y /* -cameraOffSetY/30 */ ;
 				}
 			}
-			//trace(cameraOffSetY);
-			//trace(newPlatform.y);
+			/** Where the new platforms are spawning in */
 			newPlatform.x = mostCurrentPlatform.x + mostCurrentPlatform.width;
 			this.addChild(newPlatform);
 			platforms.push(newPlatform);
 
 
 		}
+		/**
+		*function to update the score system and ensure the final score is correct
+		*/
 		private function updateScore(): void {
 			score = score + 1;
 			textScore.text = "Score: " + score;
 			LoseScene.finalScore = score;
 		}
-		
+		/** function to set the particle system to correctly start setting up particles */
 		private function spawnParticles(): void{
 						
-			if(buffLeg == true){
+			if(player.powerup == "Jump"){
 				var p:ParticleJump = new ParticleJump(player.x, player.y);
 				addChild(p);
 				particleJump.push(p);
 			}
 			
-			if(buffFlame == true){
+			if(player.powerup == "Flames"){
 				var f:ParticleFlame = new ParticleFlame(player.x, player.y);
 				addChild(f);
 				particleFlame.push(f);
 			}
 			
-			if(buffSpike == true){
+			if(player.powerup == "Spikes"){
 				var a:ParticleSpike = new ParticleSpike(player.x, player.y);
 				addChild(a);
 				particleSpike.push(a);
@@ -455,7 +457,7 @@
 		*/
 		private function updateParticles(): void{
 				
-						
+			/**updates the jump particles */
 			for(var i:int = 0; i < particleJump.length; i++){
 				particleJump[i].update();
 				if(particleJump[i].isDead){
@@ -463,6 +465,7 @@
 					particleJump.splice(i,1);
 				}
 			}
+			/**updates the flame particles */
 			for(var f:int = 0; f < particleFlame.length; f++){
 				particleFlame[f].update();
 				if(particleFlame[f].isDead){
@@ -470,6 +473,7 @@
 					particleFlame.splice(f,1);
 				}
 			}
+			/**updates the spike particles */
 			for(var l:int = 0; l < particleSpike.length; l++){
 				particleSpike[l].update();
 				if(particleSpike[l].isDead){
