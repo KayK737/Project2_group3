@@ -94,6 +94,8 @@
 					isGrounded = false;
 					isJumping = true;
 					jumpCount += 1;
+					var soundjump: JumpPlayer = new JumpPlayer;
+					soundjump.play();
 				} else {
 					if (jumpCount <= 1) {
 						velocity.y = -jumpVelocity;

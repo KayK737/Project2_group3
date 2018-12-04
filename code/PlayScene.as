@@ -41,6 +41,13 @@
 		private var bullets = new Array();
 		/** An Arra for all buffs. Note, this is only so they move with the camera */
 		private var buffs = new Array();
+		
+		/** An Array for jump particle objects */
+		private var particleJump = new Array();
+		/** An Array for jump particle objects */
+		private var particleFlame = new Array();
+		/** An Array for jump particle objects */
+		private var particleSpike = new Array();
 
 		/** The amount of time in ms until an enemy should spawn */
 		private var msTimeUntilEnemySpawn = 1; //1 seconds
@@ -65,7 +72,7 @@
 			if (shouldSwitchToLose) return new LoseScene();
 			if (shouldSwitchToTitle) return new TitleScene();
 			handleNextScene();
-
+			spawnParticles();
 
 			updatePlatforms();
 			updateEnemies();
@@ -73,6 +80,7 @@
 			updateBullets();
 			updateBulletsBad();
 			updateBuffs();
+			updateParticles();
 
 			doCollisionDetection();
 
@@ -80,6 +88,7 @@
 			calcCameraOffSet();
 			moveCamera();
 
+	
 
 
 			return null;
@@ -158,20 +167,42 @@
 					newPlatform.y = mostCurrentPlatform.y /* -cameraOffSetY/30 */ ;
 				}
 			}
-			//trace(cameraOffSetY);
-			//trace(newPlatform.y);
+			/** Where the new platforms are spawning in */
 			newPlatform.x = mostCurrentPlatform.x + mostCurrentPlatform.width;
 			this.addChild(newPlatform);
 			platforms.push(newPlatform);
 
 
 		}
+		/**
+		*function to update the score system and ensure the final score is correct
+		*/
 		private function updateScore(): void {
 			score = score + 1;
 			textScore.text = "Score: " + score;
 			LoseScene.finalScore = score;
 		}
-
+		/** function to set the particle system to correctly start setting up particles */
+		private function spawnParticles(): void{
+						
+			if(player.powerup == "Jump"){
+				var p:ParticleJump = new ParticleJump(player.x, player.y);
+				addChild(p);
+				particleJump.push(p);
+			}
+			
+			if(player.powerup == "Flames"){
+				var f:ParticleFlame = new ParticleFlame(player.x, player.y);
+				addChild(f);
+				particleFlame.push(f);
+			}
+			
+			if(player.powerup == "Spikes"){
+				var a:ParticleSpike = new ParticleSpike(player.x, player.y);
+				addChild(a);
+				particleSpike.push(a);
+			}
+		}
 
 		/**
 		 * Checks for collisions between game objects.
@@ -220,7 +251,7 @@
 
 					} else //collision where the player is not falling ontop of the enemy
 					{
-						if (player.powerup = "Spikes") {
+						if (player.powerup == "Spikes") {
 							enemy.isDead = true;
 						}
 						else this.shouldSwitchToLose = true;
@@ -364,6 +395,8 @@
 			addChild(b);
 			if (e) bulletsBad.push(b);
 			else bullets.push(b);
+			var shoot: FlameHit = new FlameHit;
+			shoot.play();
 		}
 
 
@@ -418,6 +451,37 @@
 					buffs.splice(i, 1);
 				}
 			}
+		}
+		/** updates all particles in effect at the current moment. Removes 
+		* removes particles when they are dead and moves them around when they come into play. 
+		*/
+		private function updateParticles(): void{
+				
+			/**updates the jump particles */
+			for(var i:int = 0; i < particleJump.length; i++){
+				particleJump[i].update();
+				if(particleJump[i].isDead){
+					removeChild(particleJump[i]);
+					particleJump.splice(i,1);
+				}
+			}
+			/**updates the flame particles */
+			for(var f:int = 0; f < particleFlame.length; f++){
+				particleFlame[f].update();
+				if(particleFlame[f].isDead){
+					removeChild(particleFlame[f]);
+					particleFlame.splice(f,1);
+				}
+			}
+			/**updates the spike particles */
+			for(var l:int = 0; l < particleSpike.length; l++){
+				particleSpike[l].update();
+				if(particleSpike[l].isDead){
+					removeChild(particleSpike[l]);
+					particleSpike.splice(l,1);
+				}
+			}
+			
 		}
 
 

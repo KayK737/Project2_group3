@@ -44,12 +44,16 @@
 		 */
 		static function spawnEnemy(gameStage: Stage, platform: Platform): Enemy {
 			var rand = Math.random();
-
+			var spawn: EnemySpawn = new EnemySpawn;
 			if (rand < 0.33) {
+				
+				spawn.play();
 				return new FlyingEnemy(gameStage);
-			} else if (rand < .66) {
+			} else if (rand < .66) {			
+				spawn.play();
 				return new JumpingEnemy(gameStage, platform);
-			} else {
+			} else {		
+				spawn.play();
 				return new SpikyEnemy(gameStage, platform);
 			}
 		}
