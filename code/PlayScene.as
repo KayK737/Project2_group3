@@ -247,7 +247,7 @@
 		}
 		/** Checks for collisions between the player and the outer boundaries */
 		private function detectPlayerOOB(): void {
-			if (player.y > 750 || player.x < -30) {
+			if (player.y > 750 && player.y > platforms[1].y) {
 				shouldSwitchToLose = true;
 			}
 		}

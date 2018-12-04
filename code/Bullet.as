@@ -43,6 +43,8 @@
 				
 				
 				
+				
+				
 			} else { // player bullet:
 				
 				x = p.x;
@@ -72,6 +74,8 @@
 			collider.calcEdges(x, y);
 			
 			if(!stage || y < -5 || x < -5 || x > stage.stageWidth + 5 || y > stage.stageHeight + 5) isDead = true;
+			
+			alpha = .7;
 		}
 		
 	} // ends class
