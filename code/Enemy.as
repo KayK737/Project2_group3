@@ -46,10 +46,14 @@
 			var rand = Math.random();
 
 			if (rand < 0.33) {
+				var spawn: EnemySpawn = new EnemySpawn;
+				spawn.play();
 				return new FlyingEnemy(gameStage);
-			} else if (rand < .66) {
+			} else if (rand < .66) {			
+				spawn.play();
 				return new JumpingEnemy(gameStage, platform);
-			} else {
+			} else {		
+				spawn.play();
 				return new SpikyEnemy(gameStage, platform);
 			}
 		}
