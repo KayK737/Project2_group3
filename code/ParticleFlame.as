@@ -18,8 +18,9 @@
 		/** Tells when a particle is dead and can be removed */
 		public var isDead:Boolean = false;
 		
-		
-		
+		/**
+		* @param spawnX, spawnY gives the location that particle will spawn 
+		*/		
 		public function ParticleFlame(spawnX:Number, spawnY:Number) {
 			/**gives location of where particle will spawn */
 			x = spawnX;

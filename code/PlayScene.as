@@ -68,24 +68,36 @@
 		 * @return defalt returns null but can return a new GameScene
 		 */
 		override public function update(keyboard: KeyboardInput): GameScene {
+			/** updates player */
 			player.update();
+			/** goes to lose screen */
 			if (shouldSwitchToLose) return new LoseScene();
+			/** goest to title screen */
 			if (shouldSwitchToTitle) return new TitleScene();
+			/** how to handle next screen */
 			handleNextScene();
+			/** spawns particles */
 			spawnParticles();
-
+			/** updates the platforms */
 			updatePlatforms();
+			/** updates the enemies*/
 			updateEnemies();
+			/** updates score */
 			updateScore();
+			/** updates bullets */
 			updateBullets();
+			/** updates enemies bullets */
 			updateBulletsBad();
+			/** updates buffs*/
 			updateBuffs();
+			/** updates particles*/
 			updateParticles();
-
+			/** detects collision */
 			doCollisionDetection();
 
-
+			/** calculates the camera offset */
 			calcCameraOffSet();
+			/** moves the camera */
 			moveCamera();
 
 	

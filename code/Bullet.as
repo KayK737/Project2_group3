@@ -9,23 +9,24 @@
 		/** variable needed to detect aabb collison */
 		public var collider: AABB;
 		
-		
+		/** speed of bullets */
 		private const SPEED:Number = 240;
-		
+		/** The x-velocity */
 		private var velocityX:Number = 0;
 		/** The y-velocity in px/s. */
 		private var velocityY:Number = 0;
-		
+		/** teells when bullets are dead */
 		public var isDead:Boolean = false;
+		/** radius of bullets */
 		public var radius:Number = 3;
 		public var isBig = false;
-		
-		//var velocity:Point = new Point();
+
 		
 		public function Bullet(p:Player, e:Enemy = null, mousePosition:Point = null) {
 			
 			collider = new AABB(width / 2, height / 2);
 			if(e){ // enemy bullet:
+
 				x = e.x;
 				y = e.y;
 				
