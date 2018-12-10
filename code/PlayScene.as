@@ -128,6 +128,7 @@
 		 */
 		override public function onEnd(): void {
 			trace("Exit PlayScene");
+			player.powerup = "none";
 		}
 
 		/**
@@ -295,6 +296,7 @@
 				var buff = buffs[i]
 				if (player.collider.checkOverlap(buff.collider)) {
 					buff.isDead = true;
+					player.powerup = "none";
 					player.powerup = buff.getType();
 
 				}
