@@ -245,7 +245,8 @@
 					var fix: Point = player.collider.findOverlapFix(platforms[i].collider);
 					// apply the fix:
 					player.applyFix(fix);
-					return
+					//trace(fix);
+					//return
 				}
 				//trace("no hit");
 				//player.x = 640;

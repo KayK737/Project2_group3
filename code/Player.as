@@ -133,25 +133,10 @@
 			if(velocity.y > 900)velocity.y = 900;
 			
 			//trace(velocity.x);
-			//trace(x);
+			trace(x);
 
 			y += velocity.y * Time.dt;
 		}//end doPhysics
-		
-		/**
-		 * This function sets a maximum y value that the player can not cross.
-		 */
-		private function detectGround(): void {
-			//look at y position
-			var ground: Number = 570;
-			if (y > ground) {
-				y = ground; // clamp
-				velocity.y = 0;
-				jumpCount = 0;
-				if (isGrounded == false) isGrounded = true;
-				isJumping = false;
-			}
-		}
 		
 		/** 
 		 * This moves the player out of a collision zone when they are colliding with an object.
