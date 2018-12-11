@@ -34,7 +34,6 @@
 			bttnReset.x = 640
 			bttnReset.y = 360
 			bttnReset.addEventListener(MouseEvent.MOUSE_DOWN, handleClickReset);
-			//bttnReset.addEventListener(MouseEvent.MOUSE_DOWN, handleClickTitle);
 			
 		}
 
@@ -53,9 +52,6 @@
 
 		private function handleClickReset(e:MouseEvent):void{
 			shouldSwitchToPlay = true;
-		}
-		private function handleClickTitle(e:MouseEvent):void{
-			shouldSwitchToTitle = true;
 		}
 	}
 }

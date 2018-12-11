@@ -28,7 +28,7 @@
 			
 			/**velocity of particle when it spawns in */
 			velocity.x = Math.random() * 600 - 200;
-			velocity.y = Math.random() * 600 - 350;
+			velocity.y = Math.random() * 400 - 350;
 			
 			/**how the particle will rotate */
 			rotation = Math.random() * 360;
@@ -46,11 +46,11 @@
 			/**How the object will rotate */
 			rotation += angularVelocity * Time.dt;
 			/** how the velocity will update as per is acceleration */
-			velocity.x += acceleration.x * Time.dt;
+			velocity.x -= acceleration.x * Time.dt;
 			velocity.y += acceleration.y * Time.dt;
 			/** How the x and y will update based on its velocity */
 			x += velocity.x * Time.dt;
-			y += velocity.y * Time.dt;
+			y -= velocity.y * Time.dt;
 			/** How the program determines when an object is dead */
 			age += Time.dt;
 			if(age > lifeSpan) isDead = true;

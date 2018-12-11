@@ -22,12 +22,6 @@
 		private var midPlatformHeight: Number = 360;
 		/** The Y height that High Platforms will spawn with. */
 		private var highPlatformHeight: Number = 600;
-		/** Buff that gives the player extra points when gathered. */
-		private var buffSpike: Boolean = false;
-		/** Buff that gives the player the ability to shoot. */
-		private var buffFlame: Boolean = false;
-		/** Buff that gives the player the ability to double jump*/
-		private var buffLeg: Boolean = false;
 		/** The player's score */
 		public var score: Number = 0;
 
@@ -79,8 +73,6 @@
 			if (shouldSwitchToLose) return new LoseScene();
 			/** goest to title screen */
 			if (shouldSwitchToTitle) return new TitleScene();
-			/** how to handle next screen */
-			handleNextScene();
 			/** spawns particles */
 			spawnParticles();
 			/** updates the platforms */
@@ -114,7 +106,6 @@
 		 */
 		override public function onBegin(): void {
 			stage.addEventListener(MouseEvent.MOUSE_DOWN, handleClick);
-			trace("Enter PlayScene. Press 1 to goto title scene. Press 3 to goto lose scene.");
 			var startingPlatform = new Platform();
 			startingPlatform.x = 800;
 			startingPlatform.y = 560;
@@ -137,18 +128,6 @@
 		override public function onEnd(): void {
 			trace("Exit PlayScene");
 			player.powerup = "none";
-		}
-
-		/**
-		 * Decides if it should switch scenes and to what one if it should.
-		 */
-		private function handleNextScene(): void {
-			if (KeyboardInput.IsKeyDown(Keyboard.NUMBER_3)) {
-				shouldSwitchToLose = true;
-			}
-			if (KeyboardInput.IsKeyDown(Keyboard.NUMBER_1)) {
-				shouldSwitchToTitle = true;
-			}
 		}
 
 		/**
