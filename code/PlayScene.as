@@ -101,6 +101,7 @@
 			
 			/** detects collision */
 			doCollisionDetection();
+			
 
 	
 
@@ -167,7 +168,7 @@
 		private function spawnNewPlatform(): void {
 			var mostCurrentPlatform = platforms[platforms.length - 1];
 			var newPlatform = new Platform();
-			var newLength = (Math.random() * 8 + 2) * 50;
+			var newLength = (Math.random() * 6 + 3) * 40;
 			newPlatform.width = newLength;
 
 			if (mostCurrentPlatform.height == highPlatformHeight || mostCurrentPlatform.height == lowPlatformHeight) {
@@ -230,6 +231,8 @@
 			detectPlayerBulletBadCollisions();
 			detectEnemyBulletCollisions();
 			detectPlayerBuffCollisions();
+			
+			player.x += cameraOffSet.x;
 
 
 			// ends for loop
@@ -355,6 +358,7 @@
 				buffs[bf].y += cameraOffSet.y * Time.dt;
 				buffs[bf].x += cameraOffSet.x * Time.dt - (player.velocity.x * Time.dt);
 			}
+			
 		}
 
 		/**
@@ -367,6 +371,7 @@
 			if (player.x >= this.stage.stageWidth / 2) {
 				cameraOffSet.x = this.stage.stageWidth / 2 - player.x;
 			} else cameraOffSet.x = 0;
+			//trace(cameraOffSet.x);
 
 		}
 

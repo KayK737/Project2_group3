@@ -58,8 +58,6 @@
 			isGrounded = false;
 			
 			//trace();
-			
-			//detectGround();
 		}
 		
 		/**
@@ -133,7 +131,7 @@
 			if(velocity.y > 900)velocity.y = 900;
 			
 			//trace(velocity.x);
-			trace(x);
+			//trace(x);
 
 			y += velocity.y * Time.dt;
 		}//end doPhysics
@@ -145,7 +143,13 @@
 		public function applyFix(fix: Point): void {
 			if (fix.x != 0) {
 				x += fix.x;
-				velocity.x = 0;
+				if(fix.x < 0 && velocity.x > 0){
+					velocity.x = 0;
+				}
+				if(fix.x > 0 && velocity.x < 0){
+					velocity.x = 0;
+				}
+				
 				//x = 640;
 			}
 			if (fix.y != 0) {
