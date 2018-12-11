@@ -26,7 +26,7 @@
 			x = spawnX;
 			y = spawnY - 20;
 			/**velocity of particle when it spawns in */
-			velocity.x = Math.random() * 40 - 30;
+			velocity.x = Math.random() * 70 - 30;
 			/**acceleration of the particle updating every frame */
 			acceleration.y = 50 - 60;
 			acceleration.x = 30 - 40;

@@ -432,8 +432,14 @@
 			addChild(b);
 			if (e) bulletsBad.push(b);
 			else bullets.push(b);
+			
 			var shoot: FlameHit = new FlameHit;
 			shoot.play();
+			
+			var t:ParticleFlame = new ParticleFlame(e.x, e.y);
+			addChild(t);
+			particleFlame.push(t);
+			
 		}
 
 
