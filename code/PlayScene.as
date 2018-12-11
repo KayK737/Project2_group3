@@ -90,10 +90,10 @@
 			/** updates particles*/
 			updateParticles();
 
-			/** calculates the camera offset */
-			calcCameraOffSet();
-			/** moves the camera */
-			moveCamera();
+			setChildIndex(player, this.numChildren -1); //ensures that the player is on the topmost layer
+			
+			/** detects collision */
+			doCollisionDetection();
 
 	
 
@@ -216,7 +216,13 @@
 			detectEnemyPlatformCollisions();
 			detectPlayerBulletBadCollisions();
 			detectEnemyBulletCollisions();
+			
 			detectPlayerBuffCollisions();
+			detectBulletBadPlatformCollision();
+			detectBulletPlatformCollision();
+			detectPlayerBuffCollisions();
+			
+			player.x += cameraOffSet.x;
 
 
 			// ends for loop
@@ -520,14 +526,6 @@
 	}
 
 }
-			setChildIndex(player, this.numChildren -1); //ensures that the player is on the topmost layer
 			
-			/** detects collision */
-			doCollisionDetection();
 			
-			detectPlayerBuffCollisions();
-			detectBulletBadPlatformCollision();
-			detectBulletPlatformCollision();
-			detectPlayerBuffCollisions();
 			
-			player.x += cameraOffSet.x;
