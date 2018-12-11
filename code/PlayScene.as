@@ -126,7 +126,6 @@
 		 * Do this function when entering the scene.
 		 */
 		override public function onEnd(): void {
-			trace("Exit PlayScene");
 			player.powerup = "none";
 		}
 
