@@ -8,7 +8,7 @@
 		public var collider: AABB;
 		
 		public function Platform() {
-			collider = new AABB(width/2, height/2);
+			collider = new AABB(width/1.5, height/2);
 			//trace(width, height);
 
 			collider.calcEdges(x, y);

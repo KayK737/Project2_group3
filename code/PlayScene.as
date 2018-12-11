@@ -22,12 +22,6 @@
 		private var midPlatformHeight: Number = 360;
 		/** The Y height that High Platforms will spawn with. */
 		private var highPlatformHeight: Number = 600;
-		/** Buff that gives the player extra points when gathered. */
-		private var buffSpike: Boolean = false;
-		/** Buff that gives the player the ability to shoot. */
-		private var buffFlame: Boolean = false;
-		/** Buff that gives the player the ability to double jump*/
-		private var buffLeg: Boolean = false;
 		/** The player's score */
 		public var score: Number = 0;
 
@@ -68,14 +62,17 @@
 		 * @return defalt returns null but can return a new GameScene
 		 */
 		override public function update(keyboard: KeyboardInput): GameScene {
+			
+			/** calculates the camera offset */
+			calcCameraOffSet();
+			/** moves the camera */
+			moveCamera();
 			/** updates player */
 			player.update();
 			/** goes to lose screen */
 			if (shouldSwitchToLose) return new LoseScene();
 			/** goest to title screen */
 			if (shouldSwitchToTitle) return new TitleScene();
-			/** how to handle next screen */
-			handleNextScene();
 			/** spawns particles */
 			spawnParticles();
 			/** updates the platforms */
@@ -92,15 +89,11 @@
 			updateBuffs();
 			/** updates particles*/
 			updateParticles();
+
+			setChildIndex(player, this.numChildren -1); //ensures that the player is on the topmost layer
+			
 			/** detects collision */
 			doCollisionDetection();
-
-			/** calculates the camera offset */
-			calcCameraOffSet();
-			/** moves the camera */
-			moveCamera();
-			
-			setChildIndex(player, this.numChildren -1); //ensures that the player is on the topmost layer
 
 	
 
@@ -113,13 +106,19 @@
 		 */
 		override public function onBegin(): void {
 			stage.addEventListener(MouseEvent.MOUSE_DOWN, handleClick);
-			trace("Enter PlayScene. Press 1 to goto title scene. Press 3 to goto lose scene.");
 			var startingPlatform = new Platform();
 			startingPlatform.x = 800;
 			startingPlatform.y = 560;
 			startingPlatform.width = 1280;
 			this.addChild(startingPlatform);
 			platforms.push(startingPlatform);
+			var secondPlatform = new Platform();
+			secondPlatform.x = 1600;
+			secondPlatform.y = 560;
+			secondPlatform.width = 300;
+			secondPlatform.height = midPlatformHeight;
+			this.addChild(secondPlatform);
+			platforms.push(secondPlatform);
 
 		}
 
@@ -127,19 +126,7 @@
 		 * Do this function when entering the scene.
 		 */
 		override public function onEnd(): void {
-			trace("Exit PlayScene");
-		}
-
-		/**
-		 * Decides if it should switch scenes and to what one if it should.
-		 */
-		private function handleNextScene(): void {
-			if (KeyboardInput.IsKeyDown(Keyboard.NUMBER_3)) {
-				shouldSwitchToLose = true;
-			}
-			if (KeyboardInput.IsKeyDown(Keyboard.NUMBER_1)) {
-				shouldSwitchToTitle = true;
-			}
+			player.powerup = "none";
 		}
 
 		/**
@@ -166,7 +153,7 @@
 		private function spawnNewPlatform(): void {
 			var mostCurrentPlatform = platforms[platforms.length - 1];
 			var newPlatform = new Platform();
-			var newLength = (Math.random() * 8 + 2) * 50;
+			var newLength = (Math.random() * 6 + 3) * 40;
 			newPlatform.width = newLength;
 
 			if (mostCurrentPlatform.height == highPlatformHeight || mostCurrentPlatform.height == lowPlatformHeight) {
@@ -228,9 +215,13 @@
 			detectEnemyPlatformCollisions();
 			detectPlayerBulletBadCollisions();
 			detectEnemyBulletCollisions();
+			
 			detectPlayerBuffCollisions();
 			detectBulletBadPlatformCollision();
 			detectBulletPlatformCollision();
+			detectPlayerBuffCollisions();
+			
+			player.x += cameraOffSet.x;
 
 
 			// ends for loop
@@ -246,7 +237,11 @@
 					var fix: Point = player.collider.findOverlapFix(platforms[i].collider);
 					// apply the fix:
 					player.applyFix(fix);
+					//trace(fix);
+					//return
 				}
+				//trace("no hit");
+				//player.x = 640;
 			}
 		}
 		/** Checks for collisions between the player and the outer boundaries */
@@ -294,6 +289,7 @@
 				var buff = buffs[i]
 				if (player.collider.checkOverlap(buff.collider)) {
 					buff.isDead = true;
+					player.powerup = "none";
 					player.powerup = buff.getType();
 
 				}
@@ -373,6 +369,7 @@
 				buffs[bf].y += cameraOffSet.y * Time.dt;
 				buffs[bf].x += cameraOffSet.x * Time.dt - (player.velocity.x * Time.dt);
 			}
+			
 		}
 
 		/**
@@ -385,6 +382,7 @@
 			if (player.x >= this.stage.stageWidth / 2) {
 				cameraOffSet.x = this.stage.stageWidth / 2 - player.x;
 			} else cameraOffSet.x = 0;
+			//trace(cameraOffSet.x);
 
 		}
 
@@ -434,8 +432,14 @@
 			addChild(b);
 			if (e) bulletsBad.push(b);
 			else bullets.push(b);
+			
 			var shoot: FlameHit = new FlameHit;
 			shoot.play();
+			
+			var t:ParticleFlame = new ParticleFlame(e.x, e.y);
+			addChild(t);
+			particleFlame.push(t);
+			
 		}
 
 
@@ -527,3 +531,6 @@
 	}
 
 }
+			
+			
+			

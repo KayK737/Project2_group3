@@ -57,9 +57,7 @@
 			
 			isGrounded = false;
 			
-			//trace(y);
-			
-			//detectGround();
+			//trace();
 		}
 		
 		/**
@@ -108,7 +106,7 @@
 				isJumping = false;
 				gravity.y = baseGravity.y;
 			}
-			if (velocity.y > 0) isJumping = false;
+			//if (velocity.y > 0) isJumping = false;
 		}// end handleJumping
 		
 		/**
@@ -132,25 +130,11 @@
 			
 			if(velocity.y > 900)velocity.y = 900;
 			
-			//trace(velocity.y);
+			//trace(velocity.x);
+			//trace(x);
 
 			y += velocity.y * Time.dt;
 		}//end doPhysics
-		
-		/**
-		 * This function sets a maximum y value that the player can not cross.
-		 */
-		private function detectGround(): void {
-			//look at y position
-			var ground: Number = 570;
-			if (y > ground) {
-				y = ground; // clamp
-				velocity.y = 0;
-				jumpCount = 0;
-				if (isGrounded == false) isGrounded = true;
-				isJumping = false;
-			}
-		}
 		
 		/** 
 		 * This moves the player out of a collision zone when they are colliding with an object.
@@ -159,7 +143,14 @@
 		public function applyFix(fix: Point): void {
 			if (fix.x != 0) {
 				x += fix.x;
-				velocity.x = 0;
+				if(fix.x < 0 && velocity.x > 0){
+					velocity.x = 0;
+				}
+				if(fix.x > 0 && velocity.x < 0){
+					velocity.x = 0;
+				}
+				
+				//x = 640;
 			}
 			if (fix.y != 0) {
 				y += fix.y;

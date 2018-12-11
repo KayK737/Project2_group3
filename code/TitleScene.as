@@ -28,7 +28,6 @@
 			bttnPlay.x = 640
 			bttnPlay.y = 360
 			bttnPlay.addEventListener(MouseEvent.MOUSE_DOWN, handleClickPlay);
-			trace("Enter TitleScene. Press 2 to goto the play scene.");
 		}
 
 		/**
@@ -36,7 +35,6 @@
 		 */
 		override public function onEnd(): void {
 			bttnPlay.removeEventListener(MouseEvent.MOUSE_DOWN, handleClickPlay);
-			trace("Exit TitleScene");
 		}
 
 		/**
