@@ -121,6 +121,13 @@
 			startingPlatform.width = 1280;
 			this.addChild(startingPlatform);
 			platforms.push(startingPlatform);
+			var secondPlatform = new Platform();
+			secondPlatform.x = 1600;
+			secondPlatform.y = 560;
+			secondPlatform.width = 300;
+			secondPlatform.height = midPlatformHeight;
+			this.addChild(secondPlatform);
+			platforms.push(secondPlatform);
 
 		}
 
