@@ -35,10 +35,10 @@
 			/**the angular velocity of the particle */
 			angularVelocity = Math.random() * 180 - 90;
 			/** the scale of the particle in (x,y) */
-			scaleX = Math.random() * .2 + .2;
-			scaleY = scaleY + .5;
+			scaleX = Math.random() * .2 + .1;
+			scaleY = scaleY + .3;
 			/** How long the particle will live */
-			lifeSpan = Math.random() * .5 + .5;
+			lifeSpan = Math.random() * .4 + .1;
 			/**how transparent the particle is */
 			alpha = .5;
 		}

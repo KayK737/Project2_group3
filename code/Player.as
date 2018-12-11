@@ -129,6 +129,10 @@
 
 			// apply velocity to position:
 			if (x < stage.stageWidth / 2) x += velocity.x * Time.dt;
+			
+			if(velocity.y > 900)velocity.y = 900;
+			
+			//trace(velocity.y);
 
 			y += velocity.y * Time.dt;
 		}//end doPhysics
